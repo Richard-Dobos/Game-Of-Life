@@ -1,7 +1,7 @@
 #include "GameBoard.h"
 
-GameBoard::GameBoard(int height, int width, int scale, const std::vector<std::vector<bool>>& data)
-	:height(height), width(width), heightOfCells(data.size()), widthOfCells(data[0].size()), scale(scale), cellsData(data)
+GameBoard::GameBoard(int height, int width, const std::vector<std::vector<bool>>& data)
+	:height(height), width(width), heightOfCells(data.size()), widthOfCells(data[0].size()), cellsData(data)
 {
 	for (int y = 0; y < data.size(); y++)
 	{
@@ -9,32 +9,25 @@ GameBoard::GameBoard(int height, int width, int scale, const std::vector<std::ve
 		{
 			if (data[y][x] == true)
 			{
-				SDL_Rect rectangle = {x, y, scale, scale};
 				aliveCells.emplace_back(x, y, data[y][x]);
 			}
 		}
 	}
 }
 
-void GameBoard::drawBoard()
+Cell* GameBoard::getAliveCell(int index)
 {
-	
+	return aliveCells.empty() == true ? nullptr : &aliveCells[index];
 }
 
-void GameBoard::drawCells(SDL_Renderer* renderer) const
+int GameBoard::getAliveCellVecSize() const
 {
-	SDL_SetRenderDrawColor(renderer, 0, 142, 2, 255);
-
-	for (Cell cell : aliveCells)
-	{
-		
-	}
+	return aliveCells.size();
 }
 
 void GameBoard::update()
 {
 	checkAliveCellsStatus();
-	printBoard();
 	checkDeadCellsStatus();
 }
 
@@ -48,6 +41,8 @@ void GameBoard::printAliveCellsData() const
 
 void GameBoard::printBoard() const
 {
+	std::cout << '\n';
+
 	for (int i = 0; i < cellsData.size(); i++)
 	{
 		for (bool dataPoint : cellsData[i])
@@ -96,7 +91,15 @@ void GameBoard::checkDeadCellsStatus()
 	std::vector<std::vector<int>> deadCellsCoords = checkAdjacentCellsForStatus();
 
 	for (std::vector<int> deadCellCoords : deadCellsCoords)
-		cellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
+	{
+		if (checkCellStatus(deadCellCoords[0], deadCellCoords[1], false))
+		{
+			cellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
+			aliveCells.emplace_back(deadCellCoords[0], deadCellCoords[1], true);
+		}
+
+
+	}
 }
 
 void GameBoard::checkAliveCellsStatus()

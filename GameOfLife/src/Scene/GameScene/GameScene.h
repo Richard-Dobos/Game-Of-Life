@@ -1,16 +1,22 @@
 #pragma once
 
-#include "../Scene.h"
+#include <vector>
+
+#include "SDL.h"
 #include "../../GameBoard/GameBoard.h"
 #include "../../Camera/Camera.h"
 
 
-class GameScene : Scene
+class GameScene
 {
 public:
-	void update() override;
+	GameScene(int screenWidth, int screenHeight, int gameBoardWidth, int gameBoardHeight);
+
+	void update(SDL_Renderer* renderer);
 
 private:
 	GameBoard gameBoard;
+	Camera camera;
 
-};
+	int screenWidth, screenHeight, gameBoardWidth, gameBoardHeight;
+};	

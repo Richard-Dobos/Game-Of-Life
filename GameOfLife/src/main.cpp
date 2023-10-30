@@ -4,6 +4,7 @@
 #include <SDL.h>
 
 #include "GameBoard/GameBoard.h"
+#include "Scene/GameScene/GameScene.h"
 
 int main()
 {
@@ -12,6 +13,8 @@ int main()
 
 	SDL_Window* window = SDL_CreateWindow("Game Of Life", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 	{
@@ -25,7 +28,7 @@ int main()
 		SDL_Quit();
 		return 0;
 	}
-
+		
 	if (!renderer)
 	{
 		std::cout << "Couldn't init render\n";
@@ -34,11 +37,13 @@ int main()
 		return 0;
 	}
 
+
+
 	bool exit = false;
 
-	const int FPS = 1;
+	const int FPS = 240;
 	uint32_t frameStart;
-	int frameTime;
+	uint32_t frameTime;
 	
 	std::vector<std::vector<bool>> data = 
 	{ 
@@ -57,22 +62,34 @@ int main()
 	};
 	*/
 
-	GameBoard gameBoard(1280, 720, 10, data);
-	
-	gameBoard.printAliveCellsData();
-	std::cout << '\n';
 
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_RenderDrawPoint(renderer, 20, 20);
+/*
+	Game Game(1280, 720, data);
+	
+	loop:
+		if sceneManager.scene == editor
+			sceneManager.scene.update() =>
+			{
+				setData()
+			}
+
+		else 
+			sceneManager.scene.update()
+
+	*/
+	
+	GameScene gameScene(1280, 720, data[0].size(), data.size());
+	SDL_Event event;
+
 
 	while (!exit)
 	{
 		frameStart = SDL_GetTicks();
 		
-		gameBoard.update();
-		std::cout << '\n';
+		if (SDL_PollEvent(&event) != 0 && event.type == SDL_QUIT)
+			exit = true;
 
-		SDL_RenderPresent(renderer);
+		gameScene.update(renderer);
 
 		frameTime = SDL_GetTicks() - frameStart;
 
@@ -82,6 +99,7 @@ int main()
 		}
 	}
 
+	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 

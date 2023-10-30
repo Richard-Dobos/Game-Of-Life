@@ -11,21 +11,28 @@
 #include <iostream>
 #include <SDL.h>
 
-#include "../Cell/Cell.h"
+#include "../Cell/Cell.h" 
 
 class GameBoard
 {
 public:
-	GameBoard(int height, int width, int scale, const std::vector<std::vector<bool>>& data);
+	GameBoard(int height = 0, int width = 0, 
+		const std::vector<std::vector<bool>>& data =
+		{
+			{false, false, false, false, false, false, false},
+			{true, true, true, false, true, true, false},
+			{false, true, true, false, true, true, false},
+			{false, false, false, false, false, false, false}
+		});
 
 	void printBoard() const;
 	void printAliveCellsData() const;
+
+	Cell* getAliveCell(int index);
+	int getAliveCellVecSize() const;
 	void update();
 
 private:
-	void drawBoard();
-	void drawCells(SDL_Renderer* renderer) const;
-
 	bool checkCellStatus(int xPos, int yPos, bool status);
 	void checkAliveCellsStatus();
 	void checkDeadCellsStatus();
@@ -34,9 +41,8 @@ private:
 	std::vector<int> checkBoundaries(int x, int y) const;
 
 private:
-	int height, width, heightOfCells, widthOfCells, scale;
+	int height, width, heightOfCells, widthOfCells;
 
 	std::vector<std::vector<bool>> cellsData;
 	std::vector<Cell> aliveCells;
-	std::vector<SDL_Rect*> aliveCellsRectangles;
 };

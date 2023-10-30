@@ -148,14 +148,12 @@
     <ClCompile Include="src\GameBoard\GameBoard.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Scene\GameScene\GameScene.cpp" />
-    <ClCompile Include="src\Scene\Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Cell\Cell.h" />
     <ClInclude Include="src\GameBoard\GameBoard.h" />
     <ClInclude Include="src\Scene\GameScene\GameScene.h" />
-    <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
