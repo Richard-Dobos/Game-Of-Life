@@ -19,5 +19,5 @@ private:
 	void drawSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor) const;
 
 	int screenWidth, screenHeight, currentPosX, currentPosY;
-	int scale = 20;
+	int scale = 75;
 };

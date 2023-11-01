@@ -9,6 +9,5 @@ GameScene::GameScene(int screenWidth, int screenHeight, int gameBoardWidth, int 
 void GameScene::update(SDL_Renderer* renderer)
 {
 	camera.render(renderer, gameBoard);
-	gameBoard.printBoard();
 	gameBoard.update();
 }

@@ -41,9 +41,9 @@ int main()
 
 	bool exit = false;
 
-	const int FPS = 240;
+	const int FPS = 20;
 	uint32_t frameStart;
-	uint32_t frameTime;
+	uint32_t frameTime; 
 	
 	std::vector<std::vector<bool>> data = 
 	{ 
@@ -81,6 +81,7 @@ int main()
 	GameScene gameScene(1280, 720, data[0].size(), data.size());
 	SDL_Event event;
 
+	SDL_BUTTON(1);
 
 	while (!exit)
 	{

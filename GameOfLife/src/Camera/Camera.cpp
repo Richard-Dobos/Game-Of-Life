@@ -46,8 +46,8 @@ std::tuple<int, int> Camera::convertFromAbsToRelPos(int x, int y) const
 	int relativePosX = 0;
 	int relativePosY = 0;
 
-	relativePosX = x * scale - currentPosX;
-	relativePosY = y * scale - currentPosY;
+	relativePosX = (x - currentPosX) * scale;
+	relativePosY = (y - currentPosX) * scale;
 
 	return std::make_tuple(relativePosX, relativePosY);
 }
