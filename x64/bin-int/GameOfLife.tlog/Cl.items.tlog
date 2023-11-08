@@ -1,5 +1,10 @@
 C:\Dev\GameOfLife\GameOfLife\src\Camera\Camera.cpp;C:\Dev\GameOfLife\x64\bin-int\Camera.obj
 C:\Dev\GameOfLife\GameOfLife\src\Cell\Cell.cpp;C:\Dev\GameOfLife\x64\bin-int\Cell.obj
+C:\Dev\GameOfLife\GameOfLife\src\FileManager\FileManager.cpp;C:\Dev\GameOfLife\x64\bin-int\FileManager.obj
 C:\Dev\GameOfLife\GameOfLife\src\GameBoard\GameBoard.cpp;C:\Dev\GameOfLife\x64\bin-int\GameBoard.obj
+C:\Dev\GameOfLife\GameOfLife\src\Input\Button\Button.cpp;C:\Dev\GameOfLife\x64\bin-int\Button.obj
 C:\Dev\GameOfLife\GameOfLife\src\main.cpp;C:\Dev\GameOfLife\x64\bin-int\main.obj
+C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.cpp;C:\Dev\GameOfLife\x64\bin-int\SceneManager.obj
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp;C:\Dev\GameOfLife\x64\bin-int\EditorScene.obj
 C:\Dev\GameOfLife\GameOfLife\src\Scene\GameScene\GameScene.cpp;C:\Dev\GameOfLife\x64\bin-int\GameScene.obj
+C:\Dev\GameOfLife\GameOfLife\src\Scene\MainMenu\MainMenuScene.cpp;C:\Dev\GameOfLife\x64\bin-int\MainMenuScene.obj

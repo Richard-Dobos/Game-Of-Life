@@ -5,7 +5,6 @@ void Camera::render(SDL_Renderer* renderer, GameBoard &gameBoard)
 	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
 	SDL_RenderClear(renderer);
 
-
 	int aliveCellsSize = gameBoard.getAliveCellVecSize();
 
 	if (aliveCellsSize > 0)
@@ -20,7 +19,7 @@ void Camera::render(SDL_Renderer* renderer, GameBoard &gameBoard)
 				rePTR->w = scale;
 				rePTR->h = scale;
 
-				std::tie(rePTR->x, rePTR->y) = convertFromAbsToRelPos(gameBoard.getAliveCell(i)->xPos, gameBoard.getAliveCell(i)->yPos);
+				auto[x, y] = convertFromAbsToRelPos(gameBoard.getAliveCell(i)->xPos, gameBoard.getAliveCell(i)->yPos);
 				
 				drawSquare(renderer, rePTR, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255));
 			}

@@ -3,20 +3,23 @@
 #include <vector>
 
 #include "SDL.h"
+#include "../Scene.h"
 #include "../../GameBoard/GameBoard.h"
 #include "../../Camera/Camera.h"
 
 
-class GameScene
+class GameScene : Scene
 {
 public:
-	GameScene(int screenWidth, int screenHeight, int gameBoardWidth, int gameBoardHeight);
+	GameScene();
 
-	void update(SDL_Renderer* renderer);
+	void initScene(int screenWidth, int screenHeight, int gameBoardWidth, int gameBoardHeight);
+
+	void update(SDL_Renderer* renderer) override;
 
 private:
-	GameBoard gameBoard;
-	Camera camera;
+	GameBoard m_GameBoard;
+	Camera m_Camera;
 
-	int screenWidth, screenHeight, gameBoardWidth, gameBoardHeight;
+	int m_ScreenWidth, m_ScreenHeight, m_GameBoardWidth, m_GameBoardHeight;
 };	

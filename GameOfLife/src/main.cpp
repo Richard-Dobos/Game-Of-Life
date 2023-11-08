@@ -3,8 +3,13 @@
 #include <iostream>
 #include <SDL.h>
 
+#include "SceneManager/SceneManager.h"
 #include "GameBoard/GameBoard.h"
 #include "Scene/GameScene/GameScene.h"
+#include "Scene/EditorScene/EditorScene.h"
+#include "Scene/MainMenu/MainMenuScene.h"
+#include "Scene/Scene.h"
+#include "FileManager/FileManager.h"
 
 int main()
 {
@@ -37,14 +42,16 @@ int main()
 		return 0;
 	}
 
-
+	SDL_DisplayMode mode;
+	SDL_GetCurrentDisplayMode(0, &mode);
+	std::cout << "Width: " << mode.w << "\nHeight: " << mode.h;
 
 	bool exit = false;
 
 	const int FPS = 20;
 	uint32_t frameStart;
 	uint32_t frameTime; 
-	
+
 	std::vector<std::vector<bool>> data = 
 	{ 
 		{false, false, false, false, false, false, false},
@@ -52,45 +59,27 @@ int main()
 		{false, true, true, false, true, true, false},
 		{false, false, false, false, false, false, false}
 	};
-	
-	/*
-	std::vector<std::vector<bool>> data = {
-		{ false, false, false, false, false, false, false },
-		{ false, true, false, false, true, false, false },
-		{ false, false, true, false, false, true, false },
-		{ false, false, false, false, false, false, false }
-	};
-	*/
 
+	fileManager::FileManager fm("settings/save.txt");
 
-/*
-	Game Game(1280, 720, data);
-	
-	loop:
-		if sceneManager.scene == editor
-			sceneManager.scene.update() =>
-			{
-				setData()
-			}
+	fm.saveToFile();
 
-		else 
-			sceneManager.scene.update()
-
-	*/
-	
-	GameScene gameScene(1280, 720, data[0].size(), data.size());
 	SDL_Event event;
+	/*
+	SceneManager sceneManager;
 
-	SDL_BUTTON(1);
+	sceneManager.registerScene<GameScene>("Game Scene");
+	*/
 
 	while (!exit)
 	{
 		frameStart = SDL_GetTicks();
 		
+
 		if (SDL_PollEvent(&event) != 0 && event.type == SDL_QUIT)
 			exit = true;
 
-		gameScene.update(renderer);
+		//sceneManager.getCurrentScene()->update(renderer);
 
 		frameTime = SDL_GetTicks() - frameStart;
 

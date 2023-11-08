@@ -145,15 +145,26 @@
   <ItemGroup>
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\Cell\Cell.cpp" />
+    <ClCompile Include="src\FileManager\FileManager.cpp" />
     <ClCompile Include="src\GameBoard\GameBoard.cpp" />
+    <ClCompile Include="src\Input\Button\Button.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SceneManager\SceneManager.cpp" />
+    <ClCompile Include="src\Scene\EditorScene\EditorScene.cpp" />
     <ClCompile Include="src\Scene\GameScene\GameScene.cpp" />
+    <ClCompile Include="src\Scene\MainMenu\MainMenuScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Cell\Cell.h" />
+    <ClInclude Include="src\FileManager\FileManager.h" />
     <ClInclude Include="src\GameBoard\GameBoard.h" />
+    <ClInclude Include="src\Input\Button\Button.h" />
+    <ClInclude Include="src\SceneManager\SceneManager.h" />
+    <ClInclude Include="src\Scene\EditorScene\EditorScene.h" />
     <ClInclude Include="src\Scene\GameScene\GameScene.h" />
+    <ClInclude Include="src\Scene\MainMenu\MainMenuScene.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
