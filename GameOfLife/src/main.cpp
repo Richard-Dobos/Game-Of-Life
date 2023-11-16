@@ -4,12 +4,10 @@
 #include <SDL.h>
 
 #include "SceneManager/SceneManager.h"
-#include "GameBoard/GameBoard.h"
+#include "FileManager/FileManager.h"
+#include "Scene/MainMenu/MainMenuScene.h"
 #include "Scene/GameScene/GameScene.h"
 #include "Scene/EditorScene/EditorScene.h"
-#include "Scene/MainMenu/MainMenuScene.h"
-#include "Scene/Scene.h"
-#include "FileManager/FileManager.h"
 
 int main()
 {
@@ -19,6 +17,8 @@ int main()
 	SDL_Window* window = SDL_CreateWindow("Game Of Life", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+	SDL_SetWindowResizable(window, SDL_FALSE);
+	SDL_SetWindowBordered(window, SDL_TRUE);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING))
@@ -33,7 +33,7 @@ int main()
 		SDL_Quit();
 		return 0;
 	}
-		
+
 	if (!renderer)
 	{
 		std::cout << "Couldn't init render\n";
@@ -42,44 +42,45 @@ int main()
 		return 0;
 	}
 
-	SDL_DisplayMode mode;
-	SDL_GetCurrentDisplayMode(0, &mode);
-	std::cout << "Width: " << mode.w << "\nHeight: " << mode.h;
-
 	bool exit = false;
 
-	const int FPS = 20;
+	const int FPS = 60;
 	uint32_t frameStart;
-	uint32_t frameTime; 
+	uint32_t frameTime;
 
-	std::vector<std::vector<bool>> data = 
-	{ 
+	std::vector<std::vector<bool>> data =
+	{
 		{false, false, false, false, false, false, false},
-		{true, true, true, false, true, true, false}, 
+		{true, true, true, false, true, true, false},
 		{false, true, true, false, true, true, false},
 		{false, false, false, false, false, false, false}
 	};
 
-	fileManager::FileManager fm("settings/save.txt");
-
-	fm.saveToFile();
-
 	SDL_Event event;
-	/*
-	SceneManager sceneManager;
+	FileManager fm("settings/save.txt");
 
-	sceneManager.registerScene<GameScene>("Game Scene");
-	*/
+	SceneManager sceneManager(&fm);
+
+	sceneManager.registerScene<MainMenuScene>("Main Menu", &event);
+	sceneManager.registerScene<EditorScene>("Editor", &event);
+	
+	sceneManager.changeScene("Editor");
 
 	while (!exit)
 	{
 		frameStart = SDL_GetTicks();
-		
 
-		if (SDL_PollEvent(&event) != 0 && event.type == SDL_QUIT)
+		SDL_PollEvent(&event);
+
+		SDL_SetRenderDrawColor(renderer, 40, 40, 20, 255);
+		SDL_RenderClear(renderer);
+
+		sceneManager.getCurrentScene()->update(renderer);
+
+		SDL_RenderPresent(renderer);
+
+		if (event.type == SDL_QUIT)
 			exit = true;
-
-		//sceneManager.getCurrentScene()->update(renderer);
 
 		frameTime = SDL_GetTicks() - frameStart;
 

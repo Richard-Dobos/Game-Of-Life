@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-void Camera::render(SDL_Renderer* renderer, GameBoard &gameBoard)
+void Camera::render(SDL_Renderer* renderer, GameBoard& gameBoard)
 {
 	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
 	SDL_RenderClear(renderer);
@@ -15,12 +15,11 @@ void Camera::render(SDL_Renderer* renderer, GameBoard &gameBoard)
 
 			if (cameraInCellContext(rePTR->x, rePTR->y))
 			{
-			
 				rePTR->w = scale;
 				rePTR->h = scale;
 
-				auto[x, y] = convertFromAbsToRelPos(gameBoard.getAliveCell(i)->xPos, gameBoard.getAliveCell(i)->yPos);
-				
+				auto [x, y] = convertFromAbsToRelPos(gameBoard.getAliveCell(i)->xPos, gameBoard.getAliveCell(i)->yPos);
+
 				drawSquare(renderer, rePTR, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255));
 			}
 		}
@@ -34,7 +33,6 @@ void Camera::drawSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outl
 {
 	SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
 	SDL_RenderFillRect(renderer, square);
-
 
 	SDL_SetRenderDrawColor(renderer, 0, 100, 5, 255);
 	SDL_RenderDrawRect(renderer, square);

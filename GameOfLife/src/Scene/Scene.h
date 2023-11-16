@@ -5,8 +5,13 @@
 class Scene
 {
 public:
-	Scene();
+	Scene() = default;
+	Scene(SDL_Event* e)
+		:m_Event(e) {}
+	virtual ~Scene() = default;
+
+	virtual void update(SDL_Renderer* renderer);
 
 protected:
-	virtual void update(SDL_Renderer* renderer);
+	SDL_Event* m_Event;
 };

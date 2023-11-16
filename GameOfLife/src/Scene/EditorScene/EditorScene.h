@@ -2,10 +2,11 @@
 
 #include "../Scene.h"
 
-class EditorScene : Scene
+class EditorScene : public Scene
 {
 public:
-	EditorScene();
+	EditorScene(SDL_Event* e)
+		:Scene(e) {}
 
 	void update(SDL_Renderer* renderer) override;
 };

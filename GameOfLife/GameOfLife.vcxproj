@@ -153,6 +153,7 @@
     <ClCompile Include="src\Scene\EditorScene\EditorScene.cpp" />
     <ClCompile Include="src\Scene\GameScene\GameScene.cpp" />
     <ClCompile Include="src\Scene\MainMenu\MainMenuScene.cpp" />
+    <ClCompile Include="src\Shapes\Circle\Circle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="src\Scene\GameScene\GameScene.h" />
     <ClInclude Include="src\Scene\MainMenu\MainMenuScene.h" />
     <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Shapes\Circle\Circle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

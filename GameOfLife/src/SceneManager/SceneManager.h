@@ -2,22 +2,35 @@
 
 #include <iostream>
 #include <functional>
+#include <memory>
 #include <unordered_map>
-#include "../Scene/Scene.h"
 
-class SceneManager : Scene
+#include "../FileManager/FileManager.h"
+
+#include "../Scene/Scene.h"
+#include "../Scene/GameScene/GameScene.h"
+#include "../Scene/MainMenu/MainMenuScene.h"
+#include "../Scene/EditorScene/EditorScene.h"
+
+class SceneManager : public Scene
 {
 public:
-	SceneManager();
+	SceneManager(Scene* currentScene, const FileManager* fileManager)
+		:m_CurrentScene(currentScene), m_FileManager(fileManager) {}
 
 	Scene* getCurrentScene() const;
+
 	void changeScene(const char* sceneName);
 
 	template <typename T>
-	void registerScene(const char* sceneName);
+	void registerScene(const char* sceneName, SDL_Event* e)
+	{
+		m_Scenes[sceneName] = [e]() { return new T(e); };
+	}
 
-	Scene* m_CurrentScene;
+	std::function<Scene*> m_CurrentScene;
+
 private:
-	std::unordered_map<const char*, Scene*> m_Scenes;
-	//std::vector<std::pair<const char*, std::function<Scene* ()>>> m_Scenes;
+	const FileManager* m_FileManager;
+	std::unordered_map<const char*, std::function<Scene*>> m_Scenes;
 };

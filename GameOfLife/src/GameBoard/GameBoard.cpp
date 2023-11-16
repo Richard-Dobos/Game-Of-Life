@@ -71,7 +71,7 @@ bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 			{
 				continue;
 			}
-			
+
 			if (cellsData[yPos + y][xPos + x] == true)
 			{
 				neighbors += 1;
@@ -79,11 +79,10 @@ bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 		}
 	}
 
-	if(status)
+	if (status)
 		return neighbors < 2 || neighbors > 3 ? false : true;
 
 	return neighbors == 3 ? true : false;
-	
 }
 
 void GameBoard::checkDeadCellsStatus()
@@ -97,8 +96,6 @@ void GameBoard::checkDeadCellsStatus()
 			cellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
 			aliveCells.emplace_back(deadCellCoords[0], deadCellCoords[1], true);
 		}
-
-
 	}
 }
 

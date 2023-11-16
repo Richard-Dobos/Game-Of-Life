@@ -11,12 +11,12 @@
 #include <iostream>
 #include <SDL.h>
 
-#include "../Cell/Cell.h" 
+#include "../Cell/Cell.h"
 
 class GameBoard
 {
 public:
-	GameBoard(int height = 0, int width = 0, 
+	GameBoard(int height = 0, int width = 0,
 		const std::vector<std::vector<bool>>& data =
 		{
 			{false, false, false, false, false, false, false},

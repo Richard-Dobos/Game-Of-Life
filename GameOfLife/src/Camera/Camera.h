@@ -11,8 +11,8 @@ public:
 		:screenWidth(screenWidth), screenHeight(screenHeight), currentPosX(startPosX), currentPosY(startPosY) {}
 
 	void updateCameraPosition();
-	void render(SDL_Renderer* renderer, GameBoard &gameBoard);
-	
+	void render(SDL_Renderer* renderer, GameBoard& gameBoard);
+
 private:
 	std::tuple<int, int> convertFromAbsToRelPos(int x, int y) const;
 	bool cameraInCellContext(int x, int y);
