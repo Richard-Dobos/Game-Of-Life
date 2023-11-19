@@ -2,8 +2,8 @@
 
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 
-#include "SceneManager/SceneManager.h"
 #include "FileManager/FileManager.h"
 #include "Scene/MainMenu/MainMenuScene.h"
 #include "Scene/GameScene/GameScene.h"
@@ -57,14 +57,10 @@ int main()
 	};
 
 	SDL_Event event;
-	FileManager fm("settings/save.txt");
 
-	SceneManager sceneManager(&fm);
+	MainMenuScene mainMenu(&event);
+	EditorScene editorScene(&event);
 
-	sceneManager.registerScene<MainMenuScene>("Main Menu", &event);
-	sceneManager.registerScene<EditorScene>("Editor", &event);
-	
-	sceneManager.changeScene("Editor");
 
 	while (!exit)
 	{
@@ -72,10 +68,7 @@ int main()
 
 		SDL_PollEvent(&event);
 
-		SDL_SetRenderDrawColor(renderer, 40, 40, 20, 255);
-		SDL_RenderClear(renderer);
-
-		sceneManager.getCurrentScene()->update(renderer);
+		editorScene.update(renderer);
 
 		SDL_RenderPresent(renderer);
 

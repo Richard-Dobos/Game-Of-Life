@@ -1,7 +1,7 @@
 #include "GameBoard.h"
 
 GameBoard::GameBoard(int height, int width, const std::vector<std::vector<bool>>& data)
-	:height(height), width(width), heightOfCells(data.size()), widthOfCells(data[0].size()), cellsData(data)
+	:m_GameBoardHeight(height), m_GameBoardWidth(width), m_Rows(data.size()), m_Columns(data[0].size()), cellsData(data)
 {
 	for (int y = 0; y < data.size(); y++)
 	{
@@ -143,7 +143,7 @@ std::vector<int> GameBoard::checkBoundaries(int x, int y) const
 		checkSum.emplace_back(1);
 	}
 
-	else if (y == heightOfCells - 1)
+	else if (y == m_Rows - 1)
 	{
 		checkSum.emplace_back(-1);
 		checkSum.emplace_back(0);
@@ -161,7 +161,7 @@ std::vector<int> GameBoard::checkBoundaries(int x, int y) const
 		checkSum.emplace_back(1);
 	}
 
-	else if (x == widthOfCells - 1)
+	else if (x == m_Columns - 1)
 	{
 		checkSum.emplace_back(-1);
 		checkSum.emplace_back(0);
