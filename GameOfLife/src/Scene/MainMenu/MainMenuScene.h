@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 #include <memory>
-#include <map>
+#include <vector>
 
 #include "../Scene.h"
 #include "../../Input/Button/Button.h"
@@ -10,12 +10,12 @@
 class MainMenuScene : public Scene
 {
 public:
-	MainMenuScene(SDL_Event* e);
+	MainMenuScene(SDL_Event* e, WindowProperties* windowProperites);
 
 	void update(SDL_Renderer* renderer) override;
 	void loadSettings() override
 	{};
-
+	
 private:
 	SDL_Color m_MainButtonColor = { 100, 100, 100, 255 };
 

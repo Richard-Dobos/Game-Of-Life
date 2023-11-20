@@ -1,184 +1,79 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(516,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
 C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
-  Camera.cpp
-  Cell.cpp
-  FileManager.cpp
-  GameBoard.cpp
-C:\Dev\GameOfLife\GameOfLife\src\GameBoard\GameBoard.cpp(4,46): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\GameBoard\GameBoard.cpp(4,73): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\GameBoard\GameBoard.cpp(25,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-  Button.cpp
-C:\Dev\GameOfLife\GameOfLife\src\Input\Button\Button.cpp(37,77): warning C4244: 'argument': conversion from 'double' to 'Uint8', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Input\Button\Button.cpp(37,61): warning C4244: 'argument': conversion from 'double' to 'Uint8', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Input\Button\Button.cpp(37,45): warning C4244: 'argument': conversion from 'double' to 'Uint8', possible loss of data
-  main.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1081,19): error C2338: static_assert failed: 'std::function only accepts function types as template arguments.'
-  (compiling source file 'src/main.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1081,19):
-  the template instantiation context (the oldest one first) is
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(31,24):
-  	see reference to class template instantiation 'std::function<Scene *>' being compiled
-  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51):
-  	see reference to class template instantiation 'std::_Get_function_impl<_Fty>' being compiled
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039: 'type': is not a member of 'std::_Get_function_impl<_Fty>'
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         with
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         [
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:             _Fty=Scene *
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         ]
-  (compiling source file 'src/main.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1080,8):
-  see declaration of 'std::_Get_function_impl<_Fty>'
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2504: 'type': base class undefined
-  (compiling source file 'src/main.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039: 'type': is not a member of 'std::_Get_function_impl<_Fty>'
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         with
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         [
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:             _Fty=Scene *
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         ]
-  (compiling source file 'src/main.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1080,8):
-  see declaration of 'std::_Get_function_impl<_Fty>'
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2061: syntax error: identifier 'type'
-  (compiling source file 'src/main.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1118,35): error C2653: '_Mybase': is not a class or namespace name
-  (compiling source file 'src/main.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1118,26): error C2993: 'unknown-type': is not a valid type for non-type template parameter '__formal'
-  (compiling source file 'src/main.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1165,35): error C2653: '_Mybase': is not a class or namespace name
-  (compiling source file 'src/main.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1165,26): error C2993: 'unknown-type': is not a valid type for non-type template parameter '__formal'
-  (compiling source file 'src/main.cpp')
-  
-C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18): error C2665: 'std::function<Scene *>::function': no overloaded function could convert all the argument types
-  (compiling source file 'src/main.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1112,5):
-  could be 'std::function<Scene *>::function(std::nullptr_t) noexcept'
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  	'std::function<Scene *>::function(std::nullptr_t) noexcept': cannot convert argument 1 from 'Scene *' to 'std::nullptr_t'
-  		C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,19):
-  		nullptr can only be converted to pointer or handle types
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1119,5):
-  or       'std::function<Scene *>::function(_Fx &&)'
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  	'std::function<Scene *>::function(_Fx &&)': could not deduce template argument for '__formal'
-  C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  while trying to match the argument list '(Scene *)'
-  
-C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,27): error C2665: 'SceneManager::SceneManager': no overloaded function could convert all the argument types
-  C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(36,1):
-  could be 'SceneManager::SceneManager(SceneManager &&)'
-  	C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,27):
-  	'SceneManager::SceneManager(SceneManager &&)': cannot convert argument 1 from 'FileManager *' to 'SceneManager &&'
-  		C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,28):
-  		Reason: cannot convert from 'FileManager *' to 'SceneManager'
-  C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(36,1):
-  or       'SceneManager::SceneManager(const SceneManager &)'
-  	C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,27):
-  	'SceneManager::SceneManager(const SceneManager &)': cannot convert argument 1 from 'FileManager *' to 'const SceneManager &'
-  		C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,28):
-  		Reason: cannot convert from 'FileManager *' to 'const SceneManager'
-  C:\Dev\GameOfLife\GameOfLife\src\main.cpp(62,27):
-  while trying to match the argument list '(FileManager *)'
-  
-  SceneManager.cpp
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1081,19): error C2338: static_assert failed: 'std::function only accepts function types as template arguments.'
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1081,19):
-  the template instantiation context (the oldest one first) is
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(31,24):
-  	see reference to class template instantiation 'std::function<Scene *>' being compiled
-  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51):
-  	see reference to class template instantiation 'std::_Get_function_impl<_Fty>' being compiled
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039: 'type': is not a member of 'std::_Get_function_impl<_Fty>'
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         with
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         [
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:             _Fty=Scene *
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2039:         ]
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1080,8):
-  see declaration of 'std::_Get_function_impl<_Fty>'
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1105,51): error C2504: 'type': base class undefined
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039: 'type': is not a member of 'std::_Get_function_impl<_Fty>'
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         with
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         [
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:             _Fty=Scene *
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2039:         ]
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1080,8):
-  see declaration of 'std::_Get_function_impl<_Fty>'
-          with
-          [
-              _Fty=Scene *
-          ]
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1107,56): error C2061: syntax error: identifier 'type'
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1118,35): error C2653: '_Mybase': is not a class or namespace name
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1118,26): error C2993: 'unknown-type': is not a valid type for non-type template parameter '__formal'
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1165,35): error C2653: '_Mybase': is not a class or namespace name
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1165,26): error C2993: 'unknown-type': is not a valid type for non-type template parameter '__formal'
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  
-C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18): error C2665: 'std::function<Scene *>::function': no overloaded function could convert all the argument types
-  (compiling source file 'src/SceneManager/SceneManager.cpp')
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1112,5):
-  could be 'std::function<Scene *>::function(std::nullptr_t) noexcept'
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  	'std::function<Scene *>::function(std::nullptr_t) noexcept': cannot convert argument 1 from 'Scene *' to 'std::nullptr_t'
-  		C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,19):
-  		nullptr can only be converted to pointer or handle types
-  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\functional(1119,5):
-  or       'std::function<Scene *>::function(_Fx &&)'
-  	C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  	'std::function<Scene *>::function(_Fx &&)': could not deduce template argument for '__formal'
-  C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.h(19,18):
-  while trying to match the argument list '(Scene *)'
-  
-C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.cpp(5,9): error C2440: 'return': cannot convert from 'const std::function<Scene *>' to 'Scene *'
-  C:\Dev\GameOfLife\GameOfLife\src\SceneManager\SceneManager.cpp(5,9):
-  No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-  
   EditorScene.cpp
-  GameScene.cpp
-  MainMenuScene.cpp
-  Circle.cpp
-  Generating Code...
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.h(26,61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/Scene/EditorScene/EditorScene.cpp')
+  
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(6,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(7,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(8,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(9,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(51,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(51,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         with
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         [
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:             _Ty=float
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         ]
+  (compiling source file 'src/Scene/EditorScene/EditorScene.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76):
+  the template instantiation context (the oldest one first) is
+  	C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(18,11):
+  	see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::emplace_back<int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>>(int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&)' being compiled
+          with
+          [
+              _Ty=Button
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\vector(862,24):
+  	see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_one_at_back<int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>>(int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&)' being compiled
+          with
+          [
+              _Ty=Button
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\vector(780,20):
+  	see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::_Emplace_back_with_unused_capacity<int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>>(int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&)' being compiled
+          with
+          [
+              _Ty=Button
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\vector(798,27):
+  	see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>>(_Alloc &,_Objty *const ,int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<Button>,
+              _Ty=Button,
+              _Objty=Button
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xmemory(725,14):
+  	see reference to function template instantiation '_Ty *std::construct_at<_Objty,int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>,0x0>(_Ty *const ,int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&) noexcept(<expr>)' being compiled
+          with
+          [
+              _Ty=Button,
+              _Objty=Button
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90): warning C4244:         with
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90): warning C4244:         [
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90): warning C4244:             _Ty=float
+C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90): warning C4244:         ]
+  (compiling source file 'src/Scene/EditorScene/EditorScene.cpp')
+  C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(242,90):
+  the template instantiation context (the oldest one first) is
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\vector(798,27):
+  	see reference to function template instantiation 'void std::_Default_allocator_traits<_Alloc>::construct<_Ty,int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>>(_Alloc &,_Objty *const ,int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&)' being compiled
+          with
+          [
+              _Alloc=std::allocator<Button>,
+              _Ty=Button,
+              _Objty=Button
+          ]
+  	C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xmemory(725,14):
+  	see reference to function template instantiation '_Ty *std::construct_at<_Objty,int&,float,int&,int&,EditorScene::{ctor}::<lambda_2>,0x0>(_Ty *const ,int &,float &&,int &,int &,EditorScene::{ctor}::<lambda_2> &&) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Button,
+              _Objty=Button
+          ]
+  
+  GameOfLife.vcxproj -> C:\Dev\GameOfLife\x64\bin\GameOfLife.exe

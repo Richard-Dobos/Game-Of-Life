@@ -11,15 +11,14 @@
 class GameScene : public Scene
 {
 public:
-	GameScene(SDL_Event* e)
-		:Scene(e) {}
+	GameScene(SDL_Event* e, WindowProperties* windowProperties)
+		:Scene(e, windowProperties) {}
 
 	void update(SDL_Renderer* renderer) override;
 	void loadSettings() override
 	{};
 
 private:
-	WindowProperties m_WindowProperties;
 	GameBoard m_GameBoard;
 	Camera m_Camera;
 

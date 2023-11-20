@@ -13,12 +13,13 @@ public:
 	void callback(SDL_Event* e);
 	void renderButton(SDL_Renderer* renderer, SDL_Color* color) const;
 
+	bool m_IsVisible = true;
+
 private:
 	bool checkForMouseOverButton() const;
 	bool checkMouseButtonClick(SDL_Event* e) const;
 
-private:
-	std::function<void()> m_Func = []() { std::cout << "\nNO FUNCTION ASSIGNED!\n"; };
+	std::function<void()> m_Func = nullptr;
 
 	int m_xPos, m_yPos, m_Height, m_Width;
 };

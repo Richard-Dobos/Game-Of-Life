@@ -56,10 +56,12 @@ int main()
 		{false, false, false, false, false, false, false}
 	};
 
+	WindowProperties windowProperties = { HEIGHT, WIDTH, 60 };
+
 	SDL_Event event;
 
-	MainMenuScene mainMenu(&event);
-	EditorScene editorScene(&event);
+	MainMenuScene mainMenu(&event, &windowProperties);
+	EditorScene editorScene(&event, &windowProperties);
 
 
 	while (!exit)
