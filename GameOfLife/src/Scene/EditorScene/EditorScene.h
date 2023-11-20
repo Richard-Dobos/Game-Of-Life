@@ -20,6 +20,7 @@ public:
 
 private:
 	void checkForSettingsShortcut();
+	void addLiveCell();
 
 	bool m_RenderBoardSettings = true;
 

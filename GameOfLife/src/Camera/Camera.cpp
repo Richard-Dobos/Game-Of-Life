@@ -5,26 +5,25 @@ void Camera::render(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
 	SDL_RenderClear(renderer);
 
-	int aliveCellsSize = m_GameBoard->getAliveCellVecSize();
+	for(Cell& cell : m_GameBoard->cells)
+	{ 
+		SDL_Rect* cellRect = &cell.rect;
 
-	if (aliveCellsSize > 0)
-	{
-		for (int i = 0; i < aliveCellsSize; i++)
+		if (cameraInCellContext(cellRect->x, cellRect->y))
 		{
-			SDL_Rect* rePTR = &m_GameBoard->getAliveCell(i)->rect;
+			cellRect->w = m_GameBoard->scale;
+			cellRect->h = m_GameBoard->scale;
 
-			if (cameraInCellContext(rePTR->x, rePTR->y))
-			{
-				rePTR->w = m_GameBoard->scale;
-				rePTR->h = m_GameBoard->scale;
+			auto [x, y] = convertFromAbsToRelPos(cell.xPos, cell.yPos);
 
-				auto [x, y] = convertFromAbsToRelPos(m_GameBoard->getAliveCell(i)->xPos, m_GameBoard->getAliveCell(i)->yPos);
+			cellRect->x = x;
+			cellRect->y = y;
 
-				rePTR->x = x;
-				rePTR->y = y;
+			if(cell.alive)
+				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), true);
 
-				drawSquare(renderer, rePTR, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255));
-			}
+			else
+				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), false);
 		}
 	}
 
@@ -66,16 +65,40 @@ void Camera::updateCameraPosition(SDL_Event* event)
 				m_CameraPosX = m_GameBoard->m_GameBoardWidth - m_WindowProperties->windowWidth;
 			else
 				m_CameraPosX += cameraMoveMagnitude;
-
 			break;
 		}
 	}
+
+	checkForScrollInput(event);
 }
 	
-void Camera::drawSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor) const
+void Camera::checkForScrollInput(SDL_Event* event)
 {
-	SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
-	SDL_RenderFillRect(renderer, square);
+	if (event->type == SDL_MOUSEWHEEL)
+	{
+		if (event->wheel.y > 0)
+		{
+			m_GameBoard->scale *= 2;
+			std::cout << "\nUpScale: " << m_GameBoard->scale << "\nMouseY: " << event->wheel.y;
+		}
+
+		if (event->wheel.y < 0)
+		{
+			m_GameBoard->scale /= 2;
+			std::cout << "\nDownScale: " << m_GameBoard->scale<< "\nMouseY: " << event->wheel.y;
+		}
+
+		SDL_Delay(1);
+	}
+}
+
+void Camera::renderSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor, bool filled) const
+{
+	if (filled)
+	{
+		SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
+		SDL_RenderFillRect(renderer, square);
+	}
 
 	SDL_SetRenderDrawColor(renderer, 0, 100, 5, 255);
 	SDL_RenderDrawRect(renderer, square);

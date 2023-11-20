@@ -7,13 +7,9 @@ class Cell
 public:
 	Cell(int x, int y, bool state);
 
-	bool isAlive() const;
-	void setAlive(bool state);
-
 	SDL_Rect rect;
 
 	int xPos, yPos;
+	bool alive = false;
 
-private:
-	bool state = false;
 };

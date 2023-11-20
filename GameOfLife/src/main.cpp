@@ -63,7 +63,6 @@ int main()
 	MainMenuScene mainMenu(&event, &windowProperties);
 	EditorScene editorScene(&event, &windowProperties);
 
-
 	while (!exit)
 	{
 		frameStart = SDL_GetTicks();

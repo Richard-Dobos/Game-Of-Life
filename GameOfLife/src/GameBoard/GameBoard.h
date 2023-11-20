@@ -16,14 +16,7 @@
 class GameBoard
 {
 public:
-	GameBoard(int gameBoardHeight = 0, int gameBoardWidth = 0,
-		const std::vector<std::vector<bool>>& data =
-		{
-			{false, false, false, false, false, false, false},
-			{true, true, true, false, true, true, false},
-			{false, true, true, false, true, true, false},
-			{false, false, false, false, false, false, false}
-		});
+	GameBoard(int gameBoardHeight = 1024, int gameBoardWidth = 1024);
 
 
 	void printBoard() const;
@@ -46,10 +39,12 @@ private:
 public:
 	int scale = 10;
 	int m_GameBoardHeight, m_GameBoardWidth;
+	
+	std::vector<Cell> aliveCells;
+	std::vector<Cell> cells;
 
 private:
-	int m_Rows, m_Columns;
-
 	std::vector<std::vector<bool>> cellsData;
-	std::vector<Cell> aliveCells;
+
+	int m_Rows, m_Columns;
 };

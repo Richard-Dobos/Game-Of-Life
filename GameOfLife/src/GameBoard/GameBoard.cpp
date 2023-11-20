@@ -1,16 +1,13 @@
 #include "GameBoard.h"
 
-GameBoard::GameBoard(int height, int width, const std::vector<std::vector<bool>>& data)
-	:m_GameBoardHeight(height), m_GameBoardWidth(width), m_Rows(data.size()), m_Columns(data[0].size()), cellsData(data)
+GameBoard::GameBoard(int height, int width)
+	:m_GameBoardHeight(height), m_GameBoardWidth(width)
 {
-	for (int y = 0; y < data.size(); y++)
+	for (int y = 0; y < m_GameBoardHeight; y++)
 	{
-		for (int x = 0; x < data[y].size(); x++)
+		for (int x = 0; x < m_GameBoardWidth; x++)
 		{
-			if (data[y][x] == true)
-			{
-				aliveCells.emplace_back(x, y, data[y][x]);
-			}
+			cells.emplace_back(x, y, false);
 		}
 	}
 }
@@ -35,7 +32,7 @@ void GameBoard::printAliveCellsData() const
 {
 	for (Cell cellData : aliveCells)
 	{
-		std::cout << "\nCell Data: |STATE: " << cellData.isAlive() << "| POS: " << cellData.xPos << ", " << cellData.yPos;
+		std::cout << "\nCell Data: |STATE: " << cellData.alive << "| POS: " << cellData.xPos << ", " << cellData.yPos;
 	}
 }
 

@@ -9,20 +9,24 @@
 class Camera
 {
 public:
-	Camera(int startPosX = 0, int startPosY = 0, GameBoard* gameBoard = nullptr, WindowProperties* windowProperties = nullptr)
-		:m_CameraPosX(startPosX), m_CameraPosY(startPosY), m_GameBoard(gameBoard), m_WindowProperties(windowProperties) {}
+	Camera(GameBoard* gameBoard = nullptr, WindowProperties* windowProperties = nullptr)
+		:m_GameBoard(gameBoard), m_WindowProperties(windowProperties) {}
 
 	void updateCameraPosition(SDL_Event* event);
 	void render(SDL_Renderer* renderer);
-
+	
 private:
 	std::tuple<int, int> convertFromAbsToRelPos(int x, int y) const;
+	
 	bool cameraInCellContext(int x, int y);
-	void drawSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor) const;
+	
+	void checkForScrollInput(SDL_Event* event);
+	void renderSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor, bool filled) const;
 
 private:
-	int m_CameraPosX, m_CameraPosY;
+	int m_CameraPosX = 0;
+	int m_CameraPosY = 0;
 
-	WindowProperties* m_WindowProperties;
 	GameBoard* m_GameBoard;
+	WindowProperties* m_WindowProperties;
 };
