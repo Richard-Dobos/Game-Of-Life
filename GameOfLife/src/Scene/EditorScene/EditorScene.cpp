@@ -33,7 +33,6 @@ void EditorScene::update(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 130);
 	SDL_RenderClear(renderer);
 	
-
 	m_Camera.render(renderer);
 	m_Camera.updateCameraPosition(m_Event);
 
@@ -89,8 +88,10 @@ void EditorScene::addLiveCell()
 			{
 				int x = ((float)mouseX / (float)m_GameBoard.scale) + 1;
 				int y = ((float)mouseY / (float)m_GameBoard.scale) ;
+				
 				std::cout << "\nX: " << x << " | Y: " << y;
-				m_GameBoard.cells[y][x].alive = !m_GameBoard.cells[y][x].alive;
+			
+				m_GameBoard.cells[x * y].alive = !m_GameBoard.cells[x * y].alive;
 			}
 		}
 	}

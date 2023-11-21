@@ -41,7 +41,7 @@ public:
 	int m_GameBoardHeight, m_GameBoardWidth;
 	
 	std::vector<Cell> aliveCells;
-	std::vector<std::vector<Cell>> cells;
+	std::vector<Cell> cells;
 
 private:
 	std::vector<std::vector<bool>> cellsData;

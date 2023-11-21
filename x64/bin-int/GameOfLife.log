@@ -8,10 +8,10 @@ C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(6,17): warnin
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(7,17): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(8,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(9,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(57,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(57,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(56,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(56,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(89,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(90,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(91,11): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         [
@@ -78,6 +78,4 @@ C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\
               _Objty=Button
           ]
   
-  GameScene.cpp
-  Generating Code...
   GameOfLife.vcxproj -> C:\Dev\GameOfLife\x64\bin\GameOfLife.exe
