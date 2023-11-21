@@ -86,12 +86,12 @@ void EditorScene::addLiveCell()
 			if ((float)mouseX / (float)m_GameBoard.scale <= m_GameBoard.m_GameBoardWidth
 				&& (float)mouseY / (float)m_GameBoard.scale <= m_GameBoard.m_GameBoardHeight)
 			{
-				int x = ((float)mouseX / (float)m_GameBoard.scale) + 1;
-				int y = ((float)mouseY / (float)m_GameBoard.scale) ;
+				int x = ((float)mouseX / (float)m_GameBoard.scale);
+				int y = ((float)mouseY / (float)m_GameBoard.scale);
 				
 				std::cout << "\nX: " << x << " | Y: " << y;
 			
-				m_GameBoard.cells[x * y].alive = !m_GameBoard.cells[x * y].alive;
+				m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive = !m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive;
 			}
 		}
 	}
