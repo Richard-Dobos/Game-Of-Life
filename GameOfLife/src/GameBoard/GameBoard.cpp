@@ -7,7 +7,7 @@ GameBoard::GameBoard(int height, int width)
 	{
 		for (int x = 0; x < m_GameBoardWidth; x++)
 		{
-			cells.emplace_back(x, y, false);
+			cells[y].emplace_back(x, y, false);
 		}
 	}
 }

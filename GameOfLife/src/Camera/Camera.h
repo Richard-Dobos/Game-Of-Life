@@ -23,9 +23,11 @@ private:
 	void checkForScrollInput(SDL_Event* event);
 	void renderSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor, bool filled) const;
 
-private:
+public:
 	int m_CameraPosX = 0;
 	int m_CameraPosY = 0;
+
+private:
 
 	GameBoard* m_GameBoard;
 	WindowProperties* m_WindowProperties;
