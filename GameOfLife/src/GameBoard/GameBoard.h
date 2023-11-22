@@ -11,14 +11,11 @@
 #include <iostream>
 #include <SDL.h>
 
-#include "../Cell/Cell.h"
-
 class GameBoard
 {
 public:
 	GameBoard(int gameBoardHeight = 1024, int gameBoardWidth = 1024);
 
-	void printBoard() const;
 	void update();
 	
 private:
@@ -31,14 +28,12 @@ private:
 	std::vector<int> checkBoundaries(int x, int y) const;
 
 public:
-	int scale = 10;
 	int m_GameBoardHeight, m_GameBoardWidth;
-	
-	std::vector<Cell> aliveCells;
-	std::vector<Cell> cells;
+	int scale = 2;
+	bool changed = aliveCells.size() != aliveCellsPrevSize ? true : false;
 
+	std::vector<std::vector<bool>> m_CellsData;
+	std::vector<std::tuple<int, int>> aliveCells;
 private:
-	std::vector<std::vector<bool>> cellsData;
-
-	int m_Rows, m_Columns;
+	size_t aliveCellsPrevSize = aliveCells.size();
 };

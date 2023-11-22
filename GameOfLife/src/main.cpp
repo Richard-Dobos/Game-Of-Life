@@ -9,7 +9,11 @@
 #include "Scene/GameScene/GameScene.h"
 #include "Scene/EditorScene/EditorScene.h"
 
+#ifdef _DEBUG
 int main()
+#else 
+int WinMain()
+#endif
 {
 	const int WIDTH = 1280;
 	const int HEIGHT = 720;
