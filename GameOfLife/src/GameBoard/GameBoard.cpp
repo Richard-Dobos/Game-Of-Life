@@ -3,19 +3,14 @@
 GameBoard::GameBoard(int height, int width)
 	:m_GameBoardHeight(height), m_GameBoardWidth(width)
 {
-	std::vector<bool> temp;
-
 	for (int y = 0; y < m_GameBoardHeight; y++)
 	{
 		for (int x = 0; x < m_GameBoardWidth; x++)
 		{
-			temp.emplace_back(false);
+			cells.emplace_back(x, y, false);
 		}
-
-		m_CellsData.emplace_back(temp);
 	}
 }
-
 
 void GameBoard::update()
 {
@@ -23,23 +18,13 @@ void GameBoard::update()
 	checkDeadCellsStatus();
 }
 
-void GameBoard::printAliveCellsData() const
-{
-	for (std::tuple<int, int> aliveCells: m_AliveCells)
-	{
-		auto& [x, y] = aliveCells;
-
-		std::cout << "\nCell Data: |STATE: " << m_CellsData[x][y] << "| POS: " << x << ", " << y;
-	}
-}
-
 void GameBoard::printBoard() const
 {
 	std::cout << '\n';
 
-	for (int i = 0; i < m_CellsData.size(); i++)
+	for (int i = 0; i < cellsData.size(); i++)
 	{
-		for (bool dataPoint : m_CellsData[i])
+		for (bool dataPoint : cellsData[i])
 		{
 			if (dataPoint == true)
 				std::cout << " O ";
@@ -66,7 +51,7 @@ bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 				continue;
 			}
 
-			if (m_CellsData[yPos + y][xPos + x] == true)
+			if (cellsData[yPos + y][xPos + x] == true)
 			{
 				neighbors += 1;
 			}
@@ -87,22 +72,20 @@ void GameBoard::checkDeadCellsStatus()
 	{
 		if (checkCellStatus(deadCellCoords[0], deadCellCoords[1], false))
 		{
-			m_CellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
-			m_AliveCells.emplace_back(std::make_tuple(deadCellCoords[0], deadCellCoords[1]));
+			cellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
+			aliveCells.emplace_back(deadCellCoords[0], deadCellCoords[1], true);
 		}
 	}
 }
 
 void GameBoard::checkAliveCellsStatus()
 {
-	for (int i = 0; i < m_AliveCells.size(); i++)
+	for (int i = 0; i < aliveCells.size(); i++)
 	{
-		auto& [x, y] = m_AliveCells[i];
-
-		if (!checkCellStatus(x, y, true))
+		if (!checkCellStatus(aliveCells[i].xPos, aliveCells[i].yPos, true))
 		{
-			m_CellsData[x][y] = false;
-			m_AliveCells.erase(m_AliveCells.begin() + i);
+			cellsData[aliveCells[i].yPos][aliveCells[i].xPos] = false;
+			aliveCells.erase(aliveCells.begin() + i);
 
 			i += -1;
 		}
@@ -113,11 +96,11 @@ std::vector<std::vector<int>> GameBoard::checkAdjacentCellsForStatus()
 {
 	std::vector<std::vector<int>> deadCellsCoords;
 
-	for (int y = 0; y < m_CellsData.size(); y++)
+	for (int y = 0; y < cellsData.size(); y++)
 	{
-		for (int x = 0; x < m_CellsData[y].size(); x++)
+		for (int x = 0; x < cellsData[y].size(); x++)
 		{
-			if (m_CellsData[y][x] == false)
+			if (cellsData[y][x] == false)
 			{
 				std::vector<int> coords = { x, y };
 
@@ -139,7 +122,7 @@ std::vector<int> GameBoard::checkBoundaries(int x, int y) const
 		checkSum.emplace_back(1);
 	}
 
-	else if (y == m_GameBoardHeight - 1)
+	else if (y == m_Rows - 1)
 	{
 		checkSum.emplace_back(-1);
 		checkSum.emplace_back(0);
@@ -157,7 +140,7 @@ std::vector<int> GameBoard::checkBoundaries(int x, int y) const
 		checkSum.emplace_back(1);
 	}
 
-	else if (x == m_GameBoardWidth - 1)
+	else if (x == m_Columns - 1)
 	{
 		checkSum.emplace_back(-1);
 		checkSum.emplace_back(0);

@@ -5,22 +5,26 @@ void Camera::render(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
 	SDL_RenderClear(renderer);
 
-	for(int y = 0; y < m_GameBoard->m_GameBoardHeight;y++)
-	{
-		for (int x = 0; x < m_GameBoard->m_GameBoardWidth;x++)
+
+	for(Cell& cell : m_GameBoard->cells)
+	{ 
+		SDL_Rect* cellRect = &cell.rect;
+
+		if (cameraInCellContext(cellRect->x, cellRect->y))
 		{
-			if (x < m_WindowProperties->windowWidth && y < m_WindowProperties->windowHeight)
-			{
-				auto [xPosRel, yPosRel] = convertFromAbsToRelPos(x, y);
+			cellRect->w = m_GameBoard->scale;
+			cellRect->h = m_GameBoard->scale;
 
-				SDL_Rect rect{ xPosRel, yPosRel, m_GameBoard->scale, m_GameBoard->scale };
+			auto [x, y] = convertFromAbsToRelPos(cell.xPos, cell.yPos);
 
-				if (m_GameBoard->m_CellsData[y][x] == true)
-					renderSquare(renderer, &rect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), true);
+			cellRect->x = x;
+			cellRect->y = y;
 
-				else
-					renderSquare(renderer, &rect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), false);
-			}
+			if(cell.alive)
+				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), true);
+
+			else
+				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), false);
 		}
 	}
 

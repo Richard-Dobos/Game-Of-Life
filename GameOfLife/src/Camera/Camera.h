@@ -28,6 +28,7 @@ public:
 	int m_CameraPosY = 0;
 
 private:
+
 	GameBoard* m_GameBoard;
 	WindowProperties* m_WindowProperties;
 };

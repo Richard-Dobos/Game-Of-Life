@@ -91,7 +91,7 @@ void EditorScene::addLiveCell()
 				
 				std::cout << "\nX: " << x << " | Y: " << y;
 			
-				m_GameBoard.m_CellsData[y - m_Camera.m_CameraPosY][x - m_Camera.m_CameraPosX] = !m_GameBoard.m_CellsData[y - m_Camera.m_CameraPosY][x - m_Camera.m_CameraPosX];
+				m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive = !m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive;
 			}
 		}
 	}

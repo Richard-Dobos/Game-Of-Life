@@ -11,16 +11,16 @@
 #include <iostream>
 #include <SDL.h>
 
+#include "../Cell/Cell.h"
+
 class GameBoard
 {
 public:
 	GameBoard(int gameBoardHeight = 1024, int gameBoardWidth = 1024);
 
-
 	void printBoard() const;
-	void printAliveCellsData() const;
 	void update();
-
+	
 private:
 	bool checkCellStatus(int xPos, int yPos, bool status);
 
@@ -34,6 +34,11 @@ public:
 	int scale = 10;
 	int m_GameBoardHeight, m_GameBoardWidth;
 	
-	std::vector<std::vector<bool>> m_CellsData;
-	std::vector<std::tuple<int, int>> m_AliveCells;
+	std::vector<Cell> aliveCells;
+	std::vector<Cell> cells;
+
+private:
+	std::vector<std::vector<bool>> cellsData;
+
+	int m_Rows, m_Columns;
 };
