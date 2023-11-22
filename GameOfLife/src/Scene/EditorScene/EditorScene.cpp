@@ -1,7 +1,7 @@
 #include "EditorScene.h"
 
 EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties)
-	:Scene(e, windowProperties), m_Camera(&m_GameBoard, m_WindowProperties)
+	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties)
 {
 	int buttonPosX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.25f);
 	int buttonPosY = m_WindowProperties->windowHeight * 0.33f;
@@ -55,7 +55,7 @@ void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer)
 
 	SDL_Rect boardSettingsBackground = {m_BoardSettingsPosX, 0, m_WindowProperties->windowWidth * 0.15f, m_WindowProperties->windowHeight};
 
-	SDL_SetRenderDrawColor(renderer, 10, 255, 10, 100);
+	SDL_SetRenderDrawColor(renderer, 10, 255, 10, 255);
 	SDL_RenderFillRect(renderer, &boardSettingsBackground);
 }
 
@@ -77,21 +77,28 @@ void EditorScene::addLiveCell()
 {
 	if (m_Event->type == SDL_MOUSEBUTTONDOWN)
 	{
-		int mouseX, mouseY;
+		int MouseX, MouseY;
 
-		SDL_GetMouseState(&mouseX, &mouseY);
+		SDL_GetMouseState(&MouseX, &MouseY);
 
 		if (m_Event->button.button == SDL_BUTTON_LEFT)
 		{
-			if ((float)mouseX / (float)m_GameBoard.scale <= m_GameBoard.m_GameBoardWidth
-				&& (float)mouseY / (float)m_GameBoard.scale <= m_GameBoard.m_GameBoardHeight)
+			int x = floor(MouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w));
+			int y = floor(MouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h));
+
+			std::cout << std::format("\nScaleX: {}\nScaleY: {}\nMouseX: {} | MouseY: {}\nX: {} | Y: {}", m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h,MouseX, MouseY, x, y);
+
+
+			if (m_RenderBoardSettings && x < m_BoardSettingsPosX)
 			{
-				int x = ((float)mouseX / (float)m_GameBoard.scale);
-				int y = ((float)mouseY / (float)m_GameBoard.scale);
-				
-				std::cout << "\nX: " << x << " | Y: " << y;
-			
-				m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive = !m_GameBoard.cells[x + y * m_GameBoard.m_GameBoardWidth + m_Camera.m_CameraPosX + m_Camera.m_CameraPosY].alive;
+				m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
+				m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
+			}
+
+			else
+			{
+				m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
+				m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
 			}
 		}
 	}

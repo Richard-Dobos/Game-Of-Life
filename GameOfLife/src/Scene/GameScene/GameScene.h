@@ -20,7 +20,6 @@ public:
 
 private:
 	GameBoard m_GameBoard;
-	Camera m_Camera;
 
 	int m_ScreenWidth, m_ScreenHeight, m_GameBoardWidth, m_GameBoardHeight, m_MouseX, m_MouseY;
 };

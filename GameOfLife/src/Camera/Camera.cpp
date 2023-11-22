@@ -1,71 +1,88 @@
 #include "Camera.h"
 
+Camera::Camera(GameBoard* gameBoard, WindowProperties* windowProperties)
+:m_GameBoard(gameBoard), m_WindowProperties(windowProperties) 
+{
+	m_ViewPort.x = 0;
+	m_ViewPort.y = 0;
+	m_TextureViewport.x = 0;
+	m_TextureViewport.y = 0;
+
+	m_ViewPort.w = m_WindowProperties->windowWidth;
+	m_ViewPort.h = m_WindowProperties->windowHeight;
+
+	m_TextureViewport.w = m_WindowProperties->windowWidth / m_GameBoard->scale;
+	m_TextureViewport.h = m_WindowProperties->windowHeight / m_GameBoard->scale;
+}
+
 void Camera::render(SDL_Renderer* renderer)
 {
+	SDL_Texture* texture = createTexture(renderer);
+	
+	SDL_RenderCopy(renderer, texture, &m_TextureViewport, &m_ViewPort);
+	
+	SDL_RenderPresent(renderer);
+	SDL_DestroyTexture(texture);
+}
+
+SDL_Texture* Camera::createTexture(SDL_Renderer* renderer)
+{
+	SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_WindowProperties->windowWidth, m_WindowProperties->windowHeight);
+
+	SDL_SetRenderTarget(renderer, texture);
+
 	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
 	SDL_RenderClear(renderer);
 
+	for (std::tuple<int, int> aliveCell : m_GameBoard->aliveCells)
+	{
+		const auto [x, y] = aliveCell;
 
-	for(Cell& cell : m_GameBoard->cells)
-	{ 
-		SDL_Rect* cellRect = &cell.rect;
+		SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
 
-		if (cameraInCellContext(cellRect->x, cellRect->y))
-		{
-			cellRect->w = m_GameBoard->scale;
-			cellRect->h = m_GameBoard->scale;
+		SDL_RenderDrawPoint(renderer, x, y);
 
-			auto [x, y] = convertFromAbsToRelPos(cell.xPos, cell.yPos);
-
-			cellRect->x = x;
-			cellRect->y = y;
-
-			if(cell.alive)
-				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), true);
-
-			else
-				renderSquare(renderer, cellRect, SDL_Color(0, 142, 10, 255), SDL_Color(0, 100, 5, 255), false);
-		}
 	}
 
-	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
-	SDL_RenderPresent(renderer);
+	SDL_SetRenderTarget(renderer, nullptr);
+
+	return texture;
 }
 
 void Camera::updateCameraPosition(SDL_Event* event)
 {
 	if (event->type == SDL_KEYDOWN)
 	{
-		int cameraMoveMagnitude = m_GameBoard->scale * 10;
+		int cameraMoveMagnitude = m_TextureViewport.w / 7;
 
 		switch (event->key.keysym.sym)
 		{
 		case SDLK_w:
-			if (m_CameraPosY - cameraMoveMagnitude < 0)
-				m_CameraPosY = 0;
+			if (m_TextureViewport.y + cameraMoveMagnitude < 0)
+				m_TextureViewport.y = 0;
 			else
-				m_CameraPosY -= cameraMoveMagnitude;
+				m_TextureViewport.y -= cameraMoveMagnitude;
 			break;
 
 		case SDLK_s:
-			if (m_CameraPosY + cameraMoveMagnitude > m_GameBoard->m_GameBoardHeight)
-				m_CameraPosY = m_GameBoard->m_GameBoardHeight - m_WindowProperties->windowHeight;
+			if (m_TextureViewport.y + cameraMoveMagnitude > m_GameBoard->m_GameBoardHeight)
+				m_TextureViewport.y = m_GameBoard->m_GameBoardHeight - m_WindowProperties->windowHeight;
 			else
-				m_CameraPosY += cameraMoveMagnitude;
+				m_TextureViewport.y += cameraMoveMagnitude;
 			break;
 
 		case SDLK_a:
-			if (m_CameraPosX - cameraMoveMagnitude < 0)
-				m_CameraPosX = 0;
+			if (m_TextureViewport.x - cameraMoveMagnitude < 0)
+				m_TextureViewport.x = 0;
 			else
-				m_CameraPosX -= cameraMoveMagnitude;
+				m_TextureViewport.x -= cameraMoveMagnitude;
 			break;
 
 		case SDLK_d:
-			if (m_CameraPosX + cameraMoveMagnitude > m_GameBoard->m_GameBoardWidth)
-				m_CameraPosX = m_GameBoard->m_GameBoardWidth - m_WindowProperties->windowWidth;
+			if (m_TextureViewport.x + cameraMoveMagnitude > m_GameBoard->m_GameBoardWidth)
+				m_TextureViewport.x = m_GameBoard->m_GameBoardWidth - m_WindowProperties->windowWidth;
 			else
-				m_CameraPosX += cameraMoveMagnitude;
+				m_TextureViewport.x += cameraMoveMagnitude;
 			break;
 		}
 	}
@@ -79,17 +96,20 @@ void Camera::checkForScrollInput(SDL_Event* event)
 	{
 		if (event->wheel.y > 0)
 		{
+			m_TextureViewport.w /= 2;
+			m_TextureViewport.h /= 2;
 			m_GameBoard->scale *= 2;
-			std::cout << "\nUpScale: " << m_GameBoard->scale << "\nMouseY: " << event->wheel.y;
 		}
 
 		if (event->wheel.y < 0)
 		{
-			m_GameBoard->scale /= 2;
-			std::cout << "\nDownScale: " << m_GameBoard->scale<< "\nMouseY: " << event->wheel.y;
+			if (m_GameBoard->scale > 1)
+			{
+				m_TextureViewport.w *= 2;
+				m_TextureViewport.h *= 2;
+				m_GameBoard->scale /= 2;
+			}
 		}
-
-		SDL_Delay(1);
 	}
 }
 
@@ -103,20 +123,4 @@ void Camera::renderSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color ou
 
 	SDL_SetRenderDrawColor(renderer, 0, 100, 5, 255);
 	SDL_RenderDrawRect(renderer, square);
-}
-
-std::tuple<int, int> Camera::convertFromAbsToRelPos(int x, int y) const
-{
-	int relativePosX = 0;
-	int relativePosY = 0;
-
-	relativePosX = (x - m_CameraPosX) * m_GameBoard->scale;
-	relativePosY = (y - m_CameraPosY) * m_GameBoard->scale;
-
-	return std::make_tuple(relativePosX, relativePosY);
-}
-
-bool Camera::cameraInCellContext(int x, int y)
-{
-	return x + m_GameBoard->scale >= m_CameraPosX && x <= m_CameraPosX + m_WindowProperties->windowWidth && y + m_GameBoard->scale >= m_CameraPosY && y <= m_CameraPosY + m_WindowProperties->windowHeight ? true : false;
 }
