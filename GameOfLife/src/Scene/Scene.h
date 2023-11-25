@@ -12,9 +12,6 @@ public:
 
 	virtual void update(SDL_Renderer* renderer) = 0;
 
-private:
-	virtual void loadSettings() = 0;
-
 protected:
 	SDL_Event* m_Event;
 	WindowProperties* m_WindowProperties;

@@ -29,7 +29,7 @@ void MainMenuScene::update(SDL_Renderer* renderer)
 {
 	for (auto& button : m_Buttons)
 	{
-		button.renderButton(renderer, &m_MainButtonColor);
+		button.renderButton(renderer, &m_MainButtonColor, &m_MainButtonColorHover);
 	}
 
 	for (auto& button : m_Buttons)

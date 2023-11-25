@@ -11,7 +11,7 @@ public:
 		:m_Func(func), m_xPos(xPos), m_yPos(yPos), m_Height(height), m_Width(width) {}
 
 	void callback(SDL_Event* e);
-	void renderButton(SDL_Renderer* renderer, SDL_Color* color) const;
+	void renderButton(SDL_Renderer* renderer, const SDL_Color* color, const SDL_Color* hoverColor) const;
 
 	bool m_IsVisible = true;
 
