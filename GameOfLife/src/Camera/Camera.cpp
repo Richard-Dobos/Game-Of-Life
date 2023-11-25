@@ -58,7 +58,7 @@ void Camera::updateCameraPosition(SDL_Event* event)
 		switch (event->key.keysym.sym)
 		{
 		case SDLK_w:
-			if (m_TextureViewport.y + cameraMoveMagnitude < 0)
+			if (m_TextureViewport.y - cameraMoveMagnitude < 0)
 				m_TextureViewport.y = 0;
 			else
 				m_TextureViewport.y -= cameraMoveMagnitude;

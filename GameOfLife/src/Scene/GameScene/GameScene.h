@@ -15,8 +15,6 @@ public:
 		:Scene(e, windowProperties) {}
 
 	void update(SDL_Renderer* renderer) override;
-	void loadSettings() override
-	{};
 
 private:
 	GameBoard m_GameBoard;

@@ -43,19 +43,19 @@ void EditorScene::update(SDL_Renderer* renderer)
 
 	for (Button button : m_Buttons)
 	{
-		button.renderButton(renderer, &m_ButtonColor);
+		button.renderButton(renderer, &m_ButtonColor, &m_ButtonHoverColor);
 		button.callback(m_Event);
 	}
 }
 
-void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer)
+void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer) const 
 {
 	if (!m_RenderBoardSettings)
 		return;
 
 	SDL_Rect boardSettingsBackground = {m_BoardSettingsPosX, 0, m_WindowProperties->windowWidth * 0.15f, m_WindowProperties->windowHeight};
 
-	SDL_SetRenderDrawColor(renderer, 10, 255, 10, 255);
+	SDL_SetRenderDrawColor(renderer, 35, 35, 35, 255);
 	SDL_RenderFillRect(renderer, &boardSettingsBackground);
 }
 
@@ -83,16 +83,21 @@ void EditorScene::addLiveCell()
 
 		if (m_Event->button.button == SDL_BUTTON_LEFT)
 		{
-			int x = floor(MouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w));
-			int y = floor(MouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h));
+			int x = floor(MouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w) + m_Camera.m_TextureViewport.x);
+			int y = floor(MouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h) + m_Camera.m_TextureViewport.y);
 
 			std::cout << std::format("\nScaleX: {}\nScaleY: {}\nMouseX: {} | MouseY: {}\nX: {} | Y: {}", m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h,MouseX, MouseY, x, y);
+			std::cout << std::format("\nTexture Size: {} : {}\nViewport Size: {} : {}\nTexture View Position: {} : {}", 
+				m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h, m_Camera.m_ViewPort.w, m_Camera.m_ViewPort.h, m_Camera.m_TextureViewport.x, m_Camera.m_TextureViewport.y);
 
 
-			if (m_RenderBoardSettings && x < m_BoardSettingsPosX)
+			if (m_RenderBoardSettings)
 			{
-				m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
-				m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
+				if(MouseX < m_BoardSettingsPosX)
+				{
+					m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
+					m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
+				}
 			}
 
 			else

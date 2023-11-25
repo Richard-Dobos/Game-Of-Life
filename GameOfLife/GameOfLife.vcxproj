@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\SceneManager\SceneManager.h" />
     <ClCompile Include="src\Camera\Camera.cpp" />
     <ClCompile Include="src\FileManager\FileManager.cpp" />
     <ClCompile Include="src\GameBoard\GameBoard.cpp" />

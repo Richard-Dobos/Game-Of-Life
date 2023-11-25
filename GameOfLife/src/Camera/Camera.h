@@ -22,10 +22,10 @@ private:
 
 public:
 	SDL_Rect m_TextureViewport;
+	SDL_Rect m_ViewPort;
 
 private:
 	GameBoard* m_GameBoard;
 	WindowProperties* m_WindowProperties;
 
-	SDL_Rect m_ViewPort;
 };

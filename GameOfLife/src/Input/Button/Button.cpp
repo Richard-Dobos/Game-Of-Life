@@ -28,12 +28,12 @@ bool Button::checkForMouseOverButton() const
 	return false;
 }
 
-void Button::renderButton(SDL_Renderer* renderer, SDL_Color* color) const
+void Button::renderButton(SDL_Renderer* renderer, const SDL_Color* color, const SDL_Color* colorHover) const
 {
 	if (m_IsVisible)
 	{
 		if (checkForMouseOverButton())
-			SDL_SetRenderDrawColor(renderer, color->r * 1.2, color->g * 1.2, color->b * 1.2, color->a);
+			SDL_SetRenderDrawColor(renderer, colorHover->r, colorHover->g, colorHover->b, colorHover->a);
 
 		else
 			SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);

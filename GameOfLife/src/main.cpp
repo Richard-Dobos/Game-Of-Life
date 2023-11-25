@@ -5,6 +5,7 @@
 #include <SDL_ttf.h>
 
 #include "FileManager/FileManager.h"
+#include "SceneManager/SceneManager.h"
 #include "Scene/MainMenu/MainMenuScene.h"
 #include "Scene/GameScene/GameScene.h"
 #include "Scene/EditorScene/EditorScene.h"
@@ -52,20 +53,12 @@ int WinMain()
 	uint32_t frameStart;
 	uint32_t frameTime;
 
-	std::vector<std::vector<bool>> data =
-	{
-		{false, false, false, false, false, false, false},
-		{true, true, true, false, true, true, false},
-		{false, true, true, false, true, true, false},
-		{false, false, false, false, false, false, false}
-	};
-
-	WindowProperties windowProperties = { HEIGHT, WIDTH, 60 };
-
 	SDL_Event event;
+	WindowProperties windowProperties = { HEIGHT, WIDTH, 60 };
+	SceneManager sceneManager(&event, &windowProperties);
 
-	MainMenuScene mainMenu(&event, &windowProperties);
-	EditorScene editorScene(&event, &windowProperties);
+	sceneManager.registerScene<EditorScene>("Editor");
+	sceneManager.changeScene("Editor");
 
 	while (!exit)
 	{
@@ -73,7 +66,7 @@ int WinMain()
 
 		SDL_PollEvent(&event);
 
-		editorScene.update(renderer);
+		sceneManager.update(renderer);
 
 		SDL_RenderPresent(renderer);
 

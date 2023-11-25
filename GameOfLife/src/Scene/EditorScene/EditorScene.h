@@ -14,10 +14,8 @@ public:
 	EditorScene(SDL_Event* e, WindowProperties* windowProperties);
 
 	void update(SDL_Renderer* renderer) override;
-	void loadSettings() override
-	{};
 
-	void renderBoardSettingsMenu(SDL_Renderer* renderer);
+	void renderBoardSettingsMenu(SDL_Renderer* renderer) const;
 
 private:
 	void checkForSettingsShortcut();
@@ -27,8 +25,9 @@ private:
 
 	int m_BoardSettingsPosX = (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f);
 
-	SDL_Color m_ButtonColor = { 255, 0, 0, 255 };
-	GameBoard m_GameBoard;
+	SDL_Color m_ButtonColor = { 225, 146, 10, 255 };
+	SDL_Color m_ButtonHoverColor = { 225, 174, 0, 255 };
+	GameBoard m_GameBoard; 
 	Camera m_Camera;
 
 	std::vector<Button> m_Buttons;
