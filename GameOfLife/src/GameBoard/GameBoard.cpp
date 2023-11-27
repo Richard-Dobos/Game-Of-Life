@@ -20,6 +20,18 @@ void GameBoard::update()
 	checkDeadCellsStatus();
 }
 
+void GameBoard::resetBoard()
+{
+	while(!aliveCells.empty())
+	{
+		const auto& [x, y] = aliveCells[0];
+
+		m_CellsData[y][x] = false;
+		aliveCells.erase(aliveCells.begin());
+		
+	}
+}
+
 bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 {
 	int neighbors = 0;
@@ -70,7 +82,7 @@ void GameBoard::checkAliveCellsStatus()
 
 		if (!checkCellStatus(x, y, true))
 		{
-			m_CellsData[x][y] = false;
+			m_CellsData[y][x] = false;
 			aliveCells.erase(aliveCells.begin() + i);
 
 			i += -1;

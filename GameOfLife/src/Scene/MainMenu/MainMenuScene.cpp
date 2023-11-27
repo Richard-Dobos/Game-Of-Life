@@ -1,32 +1,30 @@
 #include "MainMenuScene.h"
 
-MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties)
-	:Scene(e, windowProperties)
+MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
+	:Scene(e, windowProperties), m_SceneManager(sceneManager)
 {
-	m_Buttons.emplace_back(100, 100, 75, 250, [&]()
+	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 100, 75, 250, [&]()
 		{	
-			SDL_Color temp = { 255, 0, 0, 255 };
-
-			m_MainButtonColor = temp;
+			m_SceneManager->changeScene<GameScene>();
 		});
 
-	m_Buttons.emplace_back(100, 200, 75, 250, [&]()
+	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 200, 75, 250, [&]()
 		{
-			SDL_Color temp = { 0, 255, 0, 255 };
-
-			m_MainButtonColor = temp;
+			m_SceneManager->changeScene<EditorScene>();
 		});
 
-	m_Buttons.emplace_back(100, 300, 75, 250, [&]()
+	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 300, 75, 250, [&]()
 		{
-			SDL_Color temp = { 0, 0, 255, 255 };
-
-			m_MainButtonColor = temp;
+			m_WindowProperties->exit = true;
+			SDL_Quit();
 		});
 }
 
 void MainMenuScene::update(SDL_Renderer* renderer)
 {
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	SDL_RenderClear(renderer);
+
 	for (auto& button : m_Buttons)
 	{
 		button.renderButton(renderer, &m_MainButtonColor, &m_MainButtonColorHover);

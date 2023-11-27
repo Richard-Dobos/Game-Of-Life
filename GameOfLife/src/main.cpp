@@ -54,13 +54,12 @@ int WinMain()
 	uint32_t frameTime;
 
 	SDL_Event event;
-	WindowProperties windowProperties = { HEIGHT, WIDTH, 60 };
+	WindowProperties windowProperties = { HEIGHT, WIDTH, 60, false };
 	SceneManager sceneManager(&event, &windowProperties);
 
-	sceneManager.registerScene<EditorScene>("Editor");
-	sceneManager.changeScene("Editor");
+	sceneManager.changeScene<EditorScene>();
 
-	while (!exit)
+	while (!windowProperties.exit)
 	{
 		frameStart = SDL_GetTicks();
 
@@ -71,7 +70,7 @@ int WinMain()
 		SDL_RenderPresent(renderer);
 
 		if (event.type == SDL_QUIT)
-			exit = true;
+			windowProperties.exit = true;
 
 		frameTime = SDL_GetTicks() - frameStart;
 

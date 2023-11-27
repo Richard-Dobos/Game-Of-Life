@@ -11,6 +11,8 @@
 #include <iostream>
 #include <SDL.h>
 
+#include "../FileManager/FileManager.h"
+
 class GameBoard
 {
 public:
@@ -18,6 +20,8 @@ public:
 
 	void update();
 	
+	void resetBoard();
+
 private:
 	bool checkCellStatus(int xPos, int yPos, bool status);
 

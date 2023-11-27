@@ -7,8 +7,6 @@ void FileManager::loadFromFileToLoadBuffer()
 
 	std::string line;
 
-	m_LoadBuffer.clear();
-
 	while (getline(stream, line))
 		m_LoadBuffer.emplace_back(line);
 
@@ -18,7 +16,6 @@ void FileManager::loadFromFileToLoadBuffer()
 void FileManager::saveToFileFromSaveBuffer()
 {
 	checkExistingDir();
-	m_SaveBuffer.clear();
 
 	std::ofstream stream(m_FilePath);
 
@@ -27,6 +24,7 @@ void FileManager::saveToFileFromSaveBuffer()
 			stream << data;
 
 	stream.close();
+	m_SaveBuffer.clear();
 }
 
 void FileManager::swapBuffers()
@@ -35,6 +33,35 @@ void FileManager::swapBuffers()
 
 	m_LoadBuffer = m_SaveBuffer;
 	m_SaveBuffer = temp;
+}
+
+void FileManager::clearSaveBuffer()
+{
+	m_SaveBuffer.clear();
+}
+
+void FileManager::clearLoadBuffer()
+{
+	m_LoadBuffer.clear();
+}
+
+std::vector<std::string> FileManager::loadDataFromCategory(std::string categoryName)
+{
+	std::vector<std::string> returnVal;
+
+	std::string category = "#" + categoryName;
+	std::string currentCategory;
+
+	for (int i = 0; i < m_LoadBuffer.size(); i++)
+	{
+		if (m_LoadBuffer[i][0] == '#')
+			currentCategory = m_LoadBuffer[i];
+
+		if (currentCategory == category)
+			returnVal.emplace_back(m_LoadBuffer[i]);
+	}
+
+	return returnVal;
 }
 
 bool FileManager::findSaveCategory(const char* category)
@@ -113,9 +140,4 @@ void FileManager::checkExistingDir()
 
 		std::filesystem::create_directory(path);
 	}
-}
-
-void FileManager::loadDefaultSettings()
-{
-
 }

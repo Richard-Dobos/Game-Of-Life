@@ -1,7 +1,7 @@
 #include "EditorScene.h"
 
-EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties)
-	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties)
+EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
+	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties), m_SceneManager(sceneManager)
 {
 	int buttonPosX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.25f);
 	int buttonPosY = m_WindowProperties->windowHeight * 0.33f;
@@ -9,22 +9,23 @@ EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties)
 	int buttonWidth = (m_WindowProperties->windowWidth - (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f)) * 0.5f;
 	float offset = 0.1f * m_WindowProperties->windowHeight;
 
+
+	//Main Menu Button
 	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, [&]()
 		{
-				m_GameBoard.m_GameBoardHeight = 4096;
-				m_GameBoard.m_GameBoardWidth = 4096;
+			m_SceneManager->changeScene<MainMenuScene>();
 		});
 
+	//Save Button
 	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, [&]()
 		{
-			m_GameBoard.m_GameBoardHeight = 2048;
-			m_GameBoard.m_GameBoardWidth = 2048;
+			saveCellData();
 		});
 
+	//Reset Button
 	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, [&]()
 		{
-			m_GameBoard.m_GameBoardHeight = 1024;
-			m_GameBoard.m_GameBoardWidth = 1024;
+			m_GameBoard.resetBoard();
 		});
 }
 
@@ -71,6 +72,23 @@ void EditorScene::checkForSettingsShortcut()
 				button.m_IsVisible = m_RenderBoardSettings;
 		}
 	}
+}
+
+void EditorScene::saveCellData()
+{
+	m_FileManager->createSaveCategory("CellData");
+
+	for (const auto cell : m_GameBoard.aliveCells)
+	{
+		const auto& [x, y] = cell;
+
+		std::string save = std::format("{},{}", x, y);
+
+		m_FileManager->addToBuffer("Cell",save);
+	}
+
+	m_FileManager->saveToFileFromSaveBuffer();
+	m_FileManager->clearSaveBuffer();
 }
 
 void EditorScene::addLiveCell()
