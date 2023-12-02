@@ -52,7 +52,7 @@ int WinMain()
 	WindowProperties windowProperties = { HEIGHT, WIDTH, 30, false };
 	SceneManager sceneManager(&event, &windowProperties);
 
-	sceneManager.setStartScene<GameScene>();
+	sceneManager.setStartScene<MainMenuScene>();
 
 	while (!windowProperties.exit)
 	{

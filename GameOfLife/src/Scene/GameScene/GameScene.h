@@ -19,7 +19,8 @@ public:
 private:
 	void loadCellData();
 	void setBoardStatus();
-	
+	void checkForQuitInput();
+		
 private:
 	bool m_Changed = true;
 	int m_ScreenWidth, m_ScreenHeight, m_GameBoardWidth, m_GameBoardHeight, m_MouseX, m_MouseY;

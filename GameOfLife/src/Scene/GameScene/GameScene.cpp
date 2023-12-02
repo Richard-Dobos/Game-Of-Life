@@ -7,14 +7,12 @@ GameScene::GameScene(SDL_Event* e, WindowProperties* windowProperties, SceneMana
 	setBoardStatus();
 }
 
-void GameScene::setBoardStatus()
+void GameScene::update(SDL_Renderer* renderer)
 {
-	for (const auto& cell : m_GameBoard.m_AliveCells)
-	{
-		const auto& [x, y] = cell.second;
-
-		m_GameBoard.m_CellsData[y][x] = true;
-	}
+	m_Camera.render(renderer);
+	m_Camera.updateCameraPosition(m_Event);
+	m_GameBoard.update(60);
+	checkForQuitInput();
 }
 
 void GameScene::loadCellData()
@@ -44,9 +42,21 @@ void GameScene::loadCellData()
 	m_FileManager->clearLoadBuffer();
 }
 
-void GameScene::update(SDL_Renderer* renderer)
+void GameScene::setBoardStatus()
 {
-	m_Camera.render(renderer);
-	m_Camera.updateCameraPosition(m_Event);
-	m_GameBoard.update(60);
+	for (const auto& cell : m_GameBoard.m_AliveCells)
+	{
+		const auto& [x, y] = cell.second;
+
+		m_GameBoard.m_CellsData[y][x] = true;
+	}
+}
+
+void GameScene::checkForQuitInput()
+{
+	if (m_Event->type == SDL_KEYDOWN)
+	{
+		if (m_Event->key.keysym.sym == SDLK_ESCAPE)
+			m_WindowProperties->exit = true;
+	}
 }
