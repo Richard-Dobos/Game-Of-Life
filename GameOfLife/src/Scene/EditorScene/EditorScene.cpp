@@ -11,19 +11,19 @@ EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, Scene
 
 
 	//Main Menu Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, [&]()
+	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
 			m_SceneManager->changeScene<MainMenuScene>();
 		});
 
 	//Save Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, [&]()
+	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
 			saveCellData();
 		});
 
-	//Reset Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, [&]()
+	//Reset Board Button
+	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
 			m_GameBoard.resetBoard();
 		});
@@ -33,20 +33,19 @@ void EditorScene::update(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 130);
 	SDL_RenderClear(renderer);
-	
+
 	m_Camera.render(renderer);
 	m_Camera.updateCameraPosition(m_Event);
-
-	checkForSettingsShortcut();
 	renderBoardSettingsMenu(renderer);
-
-	addLiveCell();
-
+	
 	for (Button button : m_Buttons)
 	{
-		button.renderButton(renderer, &m_ButtonColor, &m_ButtonHoverColor);
+		button.renderButton(renderer);
 		button.callback(m_Event);
 	}
+
+	checkForSettingsShortcut();
+	addLiveCell();
 }
 
 void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer) const 
@@ -74,55 +73,70 @@ void EditorScene::checkForSettingsShortcut()
 	}
 }
 
+void EditorScene::addLiveCell()
+{
+	if (m_Event->type == SDL_MOUSEBUTTONDOWN && m_Event->button.button == SDL_BUTTON_LEFT)
+	{
+		int mouseX, mouseY;
+
+		SDL_GetMouseState(&mouseX, &mouseY);
+
+		int gridX = floor(mouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w) + m_Camera.m_TextureViewport.x);
+		int gridY = floor(mouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h) + m_Camera.m_TextureViewport.y);
+
+		int absX = (gridY * m_GameBoard.m_GameBoardWidth) + gridY + gridX;
+
+		if (m_RenderBoardSettings)
+		{
+			if (mouseX < m_BoardSettingsPosX)
+			{
+				if (m_GameBoard.m_AliveCells.contains(absX + gridY))
+				{
+					m_GameBoard.m_AliveCells.erase(absX + gridY);
+					m_GameBoard.m_CellsData[gridY][gridX] = false;
+				}
+
+				else
+				{
+					m_GameBoard.m_AliveCells[absX + gridY] = std::make_tuple(gridX, gridY);
+					m_GameBoard.m_CellsData[gridY][gridX] = true;
+				}
+				
+			}
+		}
+
+		else
+		{
+			if (m_GameBoard.m_AliveCells.contains(absX + gridY))
+			{
+				m_GameBoard.m_AliveCells.erase(absX + gridY);
+				m_GameBoard.m_CellsData[gridY][gridX] = false;
+			}
+
+			else
+			{
+				m_GameBoard.m_AliveCells[absX + gridY] = std::make_tuple(gridX, gridY);
+				m_GameBoard.m_CellsData[gridY][gridX] = true;
+			}
+		}
+	}
+}
+
 void EditorScene::saveCellData()
 {
 	m_FileManager->createSaveCategory("CellData");
 
-	for (const auto cell : m_GameBoard.aliveCells)
+	for (const auto cell : m_GameBoard.m_AliveCells)
 	{
-		const auto& [x, y] = cell;
+		const auto& [x, y] = cell.second;
 
 		std::string save = std::format("{},{}", x, y);
+
+		std::cout << "\n" << save;
 
 		m_FileManager->addToBuffer("Cell",save);
 	}
 
 	m_FileManager->saveToFileFromSaveBuffer();
 	m_FileManager->clearSaveBuffer();
-}
-
-void EditorScene::addLiveCell()
-{
-	if (m_Event->type == SDL_MOUSEBUTTONDOWN)
-	{
-		int MouseX, MouseY;
-
-		SDL_GetMouseState(&MouseX, &MouseY);
-
-		if (m_Event->button.button == SDL_BUTTON_LEFT)
-		{
-			int x = floor(MouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w) + m_Camera.m_TextureViewport.x);
-			int y = floor(MouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h) + m_Camera.m_TextureViewport.y);
-
-			std::cout << std::format("\nScaleX: {}\nScaleY: {}\nMouseX: {} | MouseY: {}\nX: {} | Y: {}", m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h,MouseX, MouseY, x, y);
-			std::cout << std::format("\nTexture Size: {} : {}\nViewport Size: {} : {}\nTexture View Position: {} : {}", 
-				m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h, m_Camera.m_ViewPort.w, m_Camera.m_ViewPort.h, m_Camera.m_TextureViewport.x, m_Camera.m_TextureViewport.y);
-
-
-			if (m_RenderBoardSettings)
-			{
-				if(MouseX < m_BoardSettingsPosX)
-				{
-					m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
-					m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
-				}
-			}
-
-			else
-			{
-				m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
-				m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
-			}
-		}
-	}
 }

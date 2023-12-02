@@ -13,15 +13,12 @@ public:
 		:Scene(event, windowProperties) {}
 
 	template<typename T>
-	void changeScene()
-	{
-		m_CurrentScene = new T(m_Event, m_WindowProperties, this);
-	}
+	void setStartScene() { m_CurrentScene = new T(m_Event, m_WindowProperties, this); }
 
-	void update(SDL_Renderer* renderer)
-	{
-		m_CurrentScene->update(renderer);
-	}
+	template<typename T>
+	void changeScene() { m_CurrentScene = new T(m_Event, m_WindowProperties, this); }
+
+	void update(SDL_Renderer* renderer) { m_CurrentScene->update(renderer); }
 
 private:
 	Scene* m_CurrentScene = nullptr;

@@ -1,5 +1,10 @@
 #include "Button.h"
 
+Button::Button(int xPos, int yPos, int height, int width, const SDL_Color& buttonColor, const SDL_Color& hoverColor, std::function<void()> func)
+	:m_ButtonColor(buttonColor), m_HoverColor(hoverColor), m_Func(func), m_xPos(xPos), m_yPos(yPos), m_Height(height), m_Width(width)
+{
+}
+
 void Button::callback(SDL_Event* e)
 {
 	if(m_IsVisible)
@@ -7,12 +12,19 @@ void Button::callback(SDL_Event* e)
 			m_Func();
 }
 
-bool Button::checkMouseButtonClick(SDL_Event* e) const
+void Button::renderButton(SDL_Renderer* renderer) const
 {
-	if (e->type == SDL_MOUSEBUTTONDOWN && e->button.button == SDL_BUTTON_LEFT)
-		return true;
+	if (m_IsVisible)
+	{
+		if (checkForMouseOverButton())
+			SDL_SetRenderDrawColor(renderer, m_HoverColor.r, m_HoverColor.g, m_HoverColor.b, m_HoverColor.a);
 
-	return false;
+		else
+			SDL_SetRenderDrawColor(renderer, m_ButtonColor.r, m_ButtonColor.g, m_ButtonColor.b, m_ButtonColor.a);
+
+		SDL_Rect button(m_xPos, m_yPos, m_Width, m_Height);
+		SDL_RenderFillRect(renderer, &button);
+	}
 }
 
 bool Button::checkForMouseOverButton() const
@@ -28,17 +40,10 @@ bool Button::checkForMouseOverButton() const
 	return false;
 }
 
-void Button::renderButton(SDL_Renderer* renderer, const SDL_Color* color, const SDL_Color* colorHover) const
+bool Button::checkMouseButtonClick(SDL_Event* e) const
 {
-	if (m_IsVisible)
-	{
-		if (checkForMouseOverButton())
-			SDL_SetRenderDrawColor(renderer, colorHover->r, colorHover->g, colorHover->b, colorHover->a);
+	if (e->type == SDL_MOUSEBUTTONDOWN && e->button.button == SDL_BUTTON_LEFT)
+		return true;
 
-		else
-			SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
-
-		SDL_Rect button(m_xPos, m_yPos, m_Width, m_Height);
-		SDL_RenderFillRect(renderer, &button);
-	}
+	return false;
 }

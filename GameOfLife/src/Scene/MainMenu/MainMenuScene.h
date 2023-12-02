@@ -18,10 +18,11 @@ public:
 	void update(SDL_Renderer* renderer) override;
 	
 private:
-	SceneManager* m_SceneManager;
-
-	SDL_Color m_MainButtonColor = { 225, 146, 10, 255 };
-	SDL_Color m_MainButtonColorHover = { 225, 174, 0, 255 };
-
 	std::vector<Button> m_Buttons;
+
+	SDL_Color m_ButtonColor = { 225, 146, 10, 255 };
+	SDL_Color m_ButtonColorHover = { 225, 174, 0, 255 };
+	SDL_Color m_ButtonTextColor = { 20, 20, 20, 255 };
+
+	SceneManager* m_SceneManager;
 };

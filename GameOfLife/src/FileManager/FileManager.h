@@ -19,11 +19,10 @@ public:
 	void loadFromFileToLoadBuffer();
 	void saveToFileFromSaveBuffer();
 	void createSaveCategory(const char* categoryName);
+	bool findSaveCategory(const char* categoryName);
 
 	std::vector<std::string>* getLoadBuffer() { return &m_LoadBuffer; }
 	std::vector<std::string> loadDataFromCategory(std::string categoryName);
-
-	bool findSaveCategory(const char* categoryName);
 
 	template<typename T>
 	void addToBuffer(std::string key, T value)
@@ -37,11 +36,9 @@ public:
 
 private:
 	void checkExistingDir();
-
 	bool checkValidPath(const std::string& path) const;
 
 	std::string getDirectoriesFromPath();
-
 	std::tuple<std::string, std::string> separateDataFromKeys(std::string& line) const;
 
 private:

@@ -25,15 +25,17 @@ private:
 	void addLiveCell();
 	void saveCellData();
 
+private:
 	bool m_RenderBoardSettings = true;
-
 	int m_BoardSettingsPosX = (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f);
 
 	SDL_Color m_ButtonColor = { 225, 146, 10, 255 };
-	SDL_Color m_ButtonHoverColor = { 225, 174, 0, 255 };
+	SDL_Color m_ButtonColorHover = { 225, 174, 0, 255 };
+	SDL_Color m_ButtonTextColor = { 20, 20, 20, 255 };
+	
+	SceneManager* m_SceneManager;
 	GameBoard m_GameBoard; 
 	Camera m_Camera;
-	SceneManager* m_SceneManager;
-
+	
 	std::vector<Button> m_Buttons;
 };

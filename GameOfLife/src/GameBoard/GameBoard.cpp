@@ -6,7 +6,7 @@ GameBoard::GameBoard(int height, int width)
 	for (int y = 0; y < m_GameBoardHeight; y++)
 	{
 		std::vector<bool> temp;
-
+		
 		for (int x = 0; x < m_GameBoardWidth; x++)
 			temp.emplace_back(false);
 
@@ -14,21 +14,84 @@ GameBoard::GameBoard(int height, int width)
 	}
 }
 
-void GameBoard::update()
+void GameBoard::update(int tickRate)
 {
-	checkAliveCellsStatus();
-	checkDeadCellsStatus();
+	if (ticks % tickRate == 0)
+	{
+		checkAliveCellsStatus();
+		checkDeadCellsStatus();
+		ticks = 0;
+	}
+
+	ticks += 1;
 }
 
 void GameBoard::resetBoard()
 {
-	while(!aliveCells.empty())
+	for(const auto& cell : m_AliveCells)
 	{
-		const auto& [x, y] = aliveCells[0];
+		const auto& [x, y] = m_AliveCells.begin()->second;
 
 		m_CellsData[y][x] = false;
-		aliveCells.erase(aliveCells.begin());
-		
+	}
+
+	m_AliveCells.clear();
+}
+
+void GameBoard::checkAliveCellsStatus()
+{
+	std::vector<int> indeciesToRemove;
+
+	for(const auto& cell : m_AliveCells)
+	{
+		const auto& [x, y] = cell.second;
+
+		if (!checkCellStatus(x, y, true))
+		{
+			m_CellsData[y][x] = false;
+			indeciesToRemove.emplace_back(cell.first);
+		}
+	}
+
+	for (int value : indeciesToRemove)
+		m_AliveCells.erase(value);
+}
+
+void GameBoard::checkDeadCellsStatus()
+{
+	getNeighboringDeadCells();
+
+	for (const auto& cell : m_DeadNeighboringCells)
+	{
+		const auto& [x, y] = cell;
+
+		if (checkCellStatus(x, y, false))
+		{
+			m_CellsData[y][x] = true;
+			m_AliveCells[x + y] = std::make_tuple(x, y);
+		}
+	}
+}
+
+void GameBoard::getNeighboringDeadCells()
+{
+	for (const auto& cell : m_AliveCells)
+	{
+		const auto& [xPos, yPos] = cell.second;
+
+		std::vector<int> checkSum = checkBoundaries(xPos, yPos);
+
+		for (int y = checkSum[0]; y <= checkSum[1]; y++)
+		{
+			for (int x = checkSum[2]; x <= checkSum[3]; x++)
+			{
+				if (y == 0 && x == 0)
+					continue;
+
+				if (m_CellsData[yPos + y][xPos + x] == false)
+					m_DeadNeighboringCells.emplace_back(std::make_tuple(xPos + x, yPos + y));
+			}
+		}
 	}
 }
 
@@ -43,14 +106,10 @@ bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 		for (int x = checkSum[2]; x <= checkSum[3]; x++)
 		{
 			if (y == 0 && x == 0)
-			{
 				continue;
-			}
 
 			if (m_CellsData[yPos + y][xPos + x] == true)
-			{
 				neighbors += 1;
-			}
 		}
 	}
 
@@ -58,56 +117,6 @@ bool GameBoard::checkCellStatus(int xPos, int yPos, bool status)
 		return neighbors < 2 || neighbors > 3 ? false : true;
 
 	return neighbors == 3 ? true : false;
-}
-
-void GameBoard::checkDeadCellsStatus()
-{
-	std::vector<std::vector<int>> deadCellsCoords = checkAdjacentCellsForStatus();
-
-	for (std::vector<int> deadCellCoords : deadCellsCoords)
-	{
-		if (checkCellStatus(deadCellCoords[0], deadCellCoords[1], false))
-		{
-			m_CellsData[deadCellCoords[1]][deadCellCoords[0]] = checkCellStatus(deadCellCoords[0], deadCellCoords[1], false);
-			aliveCells.emplace_back(std::make_tuple(deadCellCoords[0], deadCellCoords[1]));
-		}
-	}
-}
-
-void GameBoard::checkAliveCellsStatus()
-{
-	for (int i = 0; i < aliveCells.size(); i++)
-	{
-		const auto& [x, y] = aliveCells[i];
-
-		if (!checkCellStatus(x, y, true))
-		{
-			m_CellsData[y][x] = false;
-			aliveCells.erase(aliveCells.begin() + i);
-
-			i += -1;
-		}
-	}
-}
-
-std::vector<std::vector<int>> GameBoard::checkAdjacentCellsForStatus()
-{
-	std::vector<std::vector<int>> deadCellsCoords;
-
-	for (int y = 0; y < m_CellsData.size(); y++)
-	{
-		for (int x = 0; x < m_CellsData[y].size(); x++)
-		{
-			if (m_CellsData[y][x] == false)
-			{
-				std::vector<int> coords = { x, y };
-
-				deadCellsCoords.emplace_back(coords);
-			}
-		}
-	}
-
-	return deadCellsCoords;
 }
 
 std::vector<int> GameBoard::checkBoundaries(int x, int y) const

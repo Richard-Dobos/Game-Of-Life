@@ -1,18 +1,24 @@
 #include "GameScene.h"
 
 GameScene::GameScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
-	:Scene(e, windowProperties), m_SceneManager(sceneManager)
+	:Scene(e, windowProperties), m_Camera(&m_GameBoard, m_WindowProperties), m_SceneManager(sceneManager)
 {
 	loadCellData();
+	setBoardStatus();
 }
 
-void GameScene::update(SDL_Renderer* renderer)
+void GameScene::setBoardStatus()
 {
+	for (const auto& cell : m_GameBoard.m_AliveCells)
+	{
+		const auto& [x, y] = cell.second;
+
+		m_GameBoard.m_CellsData[y][x] = true;
+	}
 }
 
 void GameScene::loadCellData()
 {
-
 	m_FileManager->loadFromFileToLoadBuffer();
 	std::vector<std::string> loadBuffer = m_FileManager->loadDataFromCategory("CellData");
 	std::string category;
@@ -22,18 +28,25 @@ void GameScene::loadCellData()
 		std::string line = loadBuffer[i];
 		int x, y;
 
-		for (int i = 5; i < line.size(); i++)
+		for (int n = 5; n < line.size(); n++)
 		{
-			if (line[i] == ',')
+			if (line[n] == ',')
 			{
-				x = std::stoi(line.substr(5, (i - 5)));
-				y = std::stoi(line.substr(i + 1, line.size() - 2));
+				x = std::stoi(line.substr(5, (n - 5)));
+				y = std::stoi(line.substr(n + 1, line.size() - n - 2));
 				break;
 			}
 		}
 
-		m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
+		m_GameBoard.m_AliveCells[x + y + (y * m_GameBoard.m_GameBoardWidth)] = (std::make_tuple(x, y));
 	}
 
 	m_FileManager->clearLoadBuffer();
+}
+
+void GameScene::update(SDL_Renderer* renderer)
+{
+	m_Camera.render(renderer);
+	m_Camera.updateCameraPosition(m_Event);
+	m_GameBoard.update(60);
 }
