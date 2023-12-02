@@ -13,31 +13,13 @@ public:
 		:Scene(event, windowProperties) {}
 
 	template<typename T>
-	void registerScene(const char* sceneName)
-	{
-		if (m_Scenes.contains(sceneName))
-			return;
+	void setStartScene() { m_CurrentScene = new T(m_Event, m_WindowProperties, this); }
 
-		m_Scenes[sceneName] = new T(m_Event, m_WindowProperties);
-	}
+	template<typename T>
+	void changeScene() { m_CurrentScene = new T(m_Event, m_WindowProperties, this); }
 
-	void changeScene(const char* sceneName)
-	{
-		if (!m_Scenes.contains(sceneName))
-			return;
-
-		delete m_CurrentScene;
-
-		m_CurrentScene = m_Scenes[sceneName];
-	}
-
-	void update(SDL_Renderer* renderer)
-	{
-		m_CurrentScene->update(renderer);
-	}
+	void update(SDL_Renderer* renderer) { m_CurrentScene->update(renderer); }
 
 private:
-	Scene* m_CurrentScene;
-	std::unordered_map<const char*, Scene*> m_Scenes;
-
+	Scene* m_CurrentScene = nullptr;
 };

@@ -7,33 +7,40 @@
 	4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 */
 
-#include <vector>
+#include <map>
 #include <iostream>
 #include <SDL.h>
+
+#include "../FileManager/FileManager.h"
 
 class GameBoard
 {
 public:
 	GameBoard(int gameBoardHeight = 1024, int gameBoardWidth = 1024);
 
-	void update();
-	
-private:
-	bool checkCellStatus(int xPos, int yPos, bool status);
-
-	void checkAliveCellsStatus();
-	void checkDeadCellsStatus();
-
-	std::vector<std::vector<int>> checkAdjacentCellsForStatus();
-	std::vector<int> checkBoundaries(int x, int y) const;
+	void update(int tickRate);
+	void resetBoard();
 
 public:
 	int m_GameBoardHeight, m_GameBoardWidth;
 	int scale = 2;
-	bool changed = aliveCells.size() != aliveCellsPrevSize ? true : false;
+	bool m_Changed = true;
 
 	std::vector<std::vector<bool>> m_CellsData;
-	std::vector<std::tuple<int, int>> aliveCells;
+	std::map<int, std::tuple<int, int>> m_AliveCells;
+
 private:
-	size_t aliveCellsPrevSize = aliveCells.size();
+	void checkAliveCellsStatus();
+	void checkDeadCellsStatus();
+	void getNeighboringDeadCells();
+	bool checkCellStatus(int xPos, int yPos, bool status);
+	
+	std::vector<int> checkBoundaries(int x, int y) const;
+	
+private:
+	int ticks = 1;
+
+	std::vector<std::tuple<int, int>> m_DeadNeighboringCells;
+
+	size_t aliveCellsPrevSize = m_AliveCells.size();
 };

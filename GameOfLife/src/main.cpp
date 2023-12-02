@@ -1,13 +1,11 @@
 #define SDL_MAIN_HANDLED
 
-#include <iostream>
 #include <SDL.h>
-#include <SDL_ttf.h>
+#include <iostream>
 
-#include "FileManager/FileManager.h"
+#include "Scene/GameScene/GameScene.h"
 #include "SceneManager/SceneManager.h"
 #include "Scene/MainMenu/MainMenuScene.h"
-#include "Scene/GameScene/GameScene.h"
 #include "Scene/EditorScene/EditorScene.h"
 
 #ifdef _DEBUG
@@ -47,20 +45,16 @@ int WinMain()
 		return 0;
 	}
 
-	bool exit = false;
-
-	const int FPS = 60;
 	uint32_t frameStart;
 	uint32_t frameTime;
 
 	SDL_Event event;
-	WindowProperties windowProperties = { HEIGHT, WIDTH, 60 };
+	WindowProperties windowProperties = { HEIGHT, WIDTH, 30, false };
 	SceneManager sceneManager(&event, &windowProperties);
 
-	sceneManager.registerScene<EditorScene>("Editor");
-	sceneManager.changeScene("Editor");
+	sceneManager.setStartScene<GameScene>();
 
-	while (!exit)
+	while (!windowProperties.exit)
 	{
 		frameStart = SDL_GetTicks();
 
@@ -71,13 +65,13 @@ int WinMain()
 		SDL_RenderPresent(renderer);
 
 		if (event.type == SDL_QUIT)
-			exit = true;
+			windowProperties.exit = true;
 
 		frameTime = SDL_GetTicks() - frameStart;
 
-		if (1000 / FPS > frameTime)
+		if (1000 / windowProperties.refreshRate > frameTime)
 		{
-			SDL_Delay(1000 / FPS - frameTime);
+			SDL_Delay(1000 / windowProperties.refreshRate - frameTime);
 		}
 	}
 

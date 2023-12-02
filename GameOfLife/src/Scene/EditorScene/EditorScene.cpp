@@ -1,7 +1,7 @@
 #include "EditorScene.h"
 
-EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties)
-	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties)
+EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
+	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties), m_SceneManager(sceneManager)
 {
 	int buttonPosX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.25f);
 	int buttonPosY = m_WindowProperties->windowHeight * 0.33f;
@@ -9,22 +9,23 @@ EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties)
 	int buttonWidth = (m_WindowProperties->windowWidth - (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f)) * 0.5f;
 	float offset = 0.1f * m_WindowProperties->windowHeight;
 
-	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, [&]()
+
+	//Main Menu Button
+	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
-				m_GameBoard.m_GameBoardHeight = 4096;
-				m_GameBoard.m_GameBoardWidth = 4096;
+			m_SceneManager->changeScene<MainMenuScene>();
 		});
 
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, [&]()
+	//Save Button
+	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
-			m_GameBoard.m_GameBoardHeight = 2048;
-			m_GameBoard.m_GameBoardWidth = 2048;
+			saveCellData();
 		});
 
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, [&]()
+	//Reset Board Button
+	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
 		{
-			m_GameBoard.m_GameBoardHeight = 1024;
-			m_GameBoard.m_GameBoardWidth = 1024;
+			m_GameBoard.resetBoard();
 		});
 }
 
@@ -32,20 +33,19 @@ void EditorScene::update(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 130);
 	SDL_RenderClear(renderer);
-	
+
 	m_Camera.render(renderer);
 	m_Camera.updateCameraPosition(m_Event);
-
-	checkForSettingsShortcut();
 	renderBoardSettingsMenu(renderer);
-
-	addLiveCell();
-
+	
 	for (Button button : m_Buttons)
 	{
-		button.renderButton(renderer, &m_ButtonColor, &m_ButtonHoverColor);
+		button.renderButton(renderer);
 		button.callback(m_Event);
 	}
+
+	checkForSettingsShortcut();
+	addLiveCell();
 }
 
 void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer) const 
@@ -75,36 +75,68 @@ void EditorScene::checkForSettingsShortcut()
 
 void EditorScene::addLiveCell()
 {
-	if (m_Event->type == SDL_MOUSEBUTTONDOWN)
+	if (m_Event->type == SDL_MOUSEBUTTONDOWN && m_Event->button.button == SDL_BUTTON_LEFT)
 	{
-		int MouseX, MouseY;
+		int mouseX, mouseY;
 
-		SDL_GetMouseState(&MouseX, &MouseY);
+		SDL_GetMouseState(&mouseX, &mouseY);
 
-		if (m_Event->button.button == SDL_BUTTON_LEFT)
+		int gridX = floor(mouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w) + m_Camera.m_TextureViewport.x);
+		int gridY = floor(mouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h) + m_Camera.m_TextureViewport.y);
+
+		int absX = (gridY * m_GameBoard.m_GameBoardWidth) + gridY + gridX;
+
+		if (m_RenderBoardSettings)
 		{
-			int x = floor(MouseX / (m_WindowProperties->windowWidth / m_Camera.m_TextureViewport.w) + m_Camera.m_TextureViewport.x);
-			int y = floor(MouseY / (m_WindowProperties->windowHeight / m_Camera.m_TextureViewport.h) + m_Camera.m_TextureViewport.y);
-
-			std::cout << std::format("\nScaleX: {}\nScaleY: {}\nMouseX: {} | MouseY: {}\nX: {} | Y: {}", m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h,MouseX, MouseY, x, y);
-			std::cout << std::format("\nTexture Size: {} : {}\nViewport Size: {} : {}\nTexture View Position: {} : {}", 
-				m_Camera.m_TextureViewport.w, m_Camera.m_TextureViewport.h, m_Camera.m_ViewPort.w, m_Camera.m_ViewPort.h, m_Camera.m_TextureViewport.x, m_Camera.m_TextureViewport.y);
-
-
-			if (m_RenderBoardSettings)
+			if (mouseX < m_BoardSettingsPosX)
 			{
-				if(MouseX < m_BoardSettingsPosX)
+				if (m_GameBoard.m_AliveCells.contains(absX + gridY))
 				{
-					m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
-					m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
+					m_GameBoard.m_AliveCells.erase(absX + gridY);
+					m_GameBoard.m_CellsData[gridY][gridX] = false;
 				}
+
+				else
+				{
+					m_GameBoard.m_AliveCells[absX + gridY] = std::make_tuple(gridX, gridY);
+					m_GameBoard.m_CellsData[gridY][gridX] = true;
+				}
+				
+			}
+		}
+
+		else
+		{
+			if (m_GameBoard.m_AliveCells.contains(absX + gridY))
+			{
+				m_GameBoard.m_AliveCells.erase(absX + gridY);
+				m_GameBoard.m_CellsData[gridY][gridX] = false;
 			}
 
 			else
 			{
-				m_GameBoard.aliveCells.emplace_back(std::make_tuple(x, y));
-				m_GameBoard.m_CellsData[y][x] = !m_GameBoard.m_CellsData[y][x];
+				m_GameBoard.m_AliveCells[absX + gridY] = std::make_tuple(gridX, gridY);
+				m_GameBoard.m_CellsData[gridY][gridX] = true;
 			}
 		}
 	}
+}
+
+void EditorScene::saveCellData()
+{
+	m_FileManager->createSaveCategory("CellData");
+
+	for (const auto cell : m_GameBoard.m_AliveCells)
+	{
+		const auto& [x, y] = cell.second;
+
+		std::string save = std::format("{},{}", x, y);
+
+		std::cout << "\n" << save;
+
+		m_FileManager->addToBuffer("Cell",save);
+	}
+
+	m_FileManager->saveToFileFromSaveBuffer();
+	m_FileManager->clearSaveBuffer();
 }

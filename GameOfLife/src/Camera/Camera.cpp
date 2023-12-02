@@ -25,35 +25,13 @@ void Camera::render(SDL_Renderer* renderer)
 	SDL_DestroyTexture(texture);
 }
 
-SDL_Texture* Camera::createTexture(SDL_Renderer* renderer)
-{
-	SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_WindowProperties->windowWidth, m_WindowProperties->windowHeight);
-
-	SDL_SetRenderTarget(renderer, texture);
-
-	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
-	SDL_RenderClear(renderer);
-
-	for (std::tuple<int, int> aliveCell : m_GameBoard->aliveCells)
-	{
-		const auto [x, y] = aliveCell;
-
-		SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
-
-		SDL_RenderDrawPoint(renderer, x, y);
-
-	}
-
-	SDL_SetRenderTarget(renderer, nullptr);
-
-	return texture;
-}
-
-void Camera::updateCameraPosition(SDL_Event* event)
+bool Camera::updateCameraPosition(SDL_Event* event)
 {
 	if (event->type == SDL_KEYDOWN)
 	{
-		int cameraMoveMagnitude = m_TextureViewport.w / 7;
+		int cameraMoveMagnitude = m_GameBoard->scale;
+
+		std::cout << std::format("\nTexture Viewport\nX: {} | Y: {}\nWidth: {} | Height: {}", m_TextureViewport.x , m_TextureViewport.y, m_TextureViewport.w, m_TextureViewport.h);
 
 		switch (event->key.keysym.sym)
 		{
@@ -62,13 +40,18 @@ void Camera::updateCameraPosition(SDL_Event* event)
 				m_TextureViewport.y = 0;
 			else
 				m_TextureViewport.y -= cameraMoveMagnitude;
+
+			return true;
 			break;
 
 		case SDLK_s:
-			if (m_TextureViewport.y + cameraMoveMagnitude > m_GameBoard->m_GameBoardHeight)
-				m_TextureViewport.y = m_GameBoard->m_GameBoardHeight - m_WindowProperties->windowHeight;
+			if (m_TextureViewport.y + m_TextureViewport.h + cameraMoveMagnitude > m_GameBoard->m_GameBoardHeight)
+				m_TextureViewport.y = m_GameBoard->m_GameBoardHeight - m_TextureViewport.h;
+
 			else
 				m_TextureViewport.y += cameraMoveMagnitude;
+
+			return true;
 			break;
 
 		case SDLK_a:
@@ -76,51 +59,77 @@ void Camera::updateCameraPosition(SDL_Event* event)
 				m_TextureViewport.x = 0;
 			else
 				m_TextureViewport.x -= cameraMoveMagnitude;
+
+			return true;
 			break;
 
 		case SDLK_d:
-			if (m_TextureViewport.x + cameraMoveMagnitude > m_GameBoard->m_GameBoardWidth)
-				m_TextureViewport.x = m_GameBoard->m_GameBoardWidth - m_WindowProperties->windowWidth;
+			if (m_TextureViewport.x + m_TextureViewport.w + cameraMoveMagnitude > m_GameBoard->m_GameBoardWidth)
+				m_TextureViewport.x = m_GameBoard->m_GameBoardWidth - m_TextureViewport.w;
+
 			else
 				m_TextureViewport.x += cameraMoveMagnitude;
+
+			return true;
 			break;
 		}
 	}
 
-	checkForScrollInput(event);
+	return checkForScrollInput(event) != false ? true : false;
+}
+
+SDL_Texture* Camera::createTexture(SDL_Renderer* renderer)
+{
+	SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_TextureViewport.x + m_TextureViewport.w, m_TextureViewport.y + m_TextureViewport.h);
+
+	SDL_SetRenderTarget(renderer, texture);
+
+	SDL_SetRenderDrawColor(renderer, 10, 10, 10, 255);
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
+
+	for (const auto aliveCell : m_GameBoard->m_AliveCells)
+	{
+		const auto [x, y] = aliveCell.second;
+
+		if(x >= m_TextureViewport.x && x <= m_TextureViewport.x + m_TextureViewport.w &&
+			y >= m_TextureViewport.y && y <= m_TextureViewport.y + m_TextureViewport.h)
+			SDL_RenderDrawPoint(renderer, x, y);
+	}
+
+	SDL_SetRenderTarget(renderer, nullptr);
+
+	return texture;
 }
 	
-void Camera::checkForScrollInput(SDL_Event* event)
+bool Camera::checkForScrollInput(SDL_Event* event)
 {
 	if (event->type == SDL_MOUSEWHEEL)
 	{
 		if (event->wheel.y > 0)
 		{
-			m_TextureViewport.w /= 2;
-			m_TextureViewport.h /= 2;
-			m_GameBoard->scale *= 2;
+			if (m_GameBoard->scale * 2 < 129)
+			{
+				m_TextureViewport.w /= 2;
+				m_TextureViewport.h /= 2;
+				m_GameBoard->scale *= 2;
+			}
+
+			return true;
 		}
 
 		if (event->wheel.y < 0)
 		{
-			if (m_GameBoard->scale > 1)
+			if (m_GameBoard->scale / 2 > 1)
 			{
 				m_TextureViewport.w *= 2;
 				m_TextureViewport.h *= 2;
 				m_GameBoard->scale /= 2;
+
+				return true;
 			}
 		}
 	}
-}
 
-void Camera::renderSquare(SDL_Renderer* renderer, SDL_Rect* square, SDL_Color outlineColor, SDL_Color fillColor, bool filled) const
-{
-	if (filled)
-	{
-		SDL_SetRenderDrawColor(renderer, 0, 142, 10, 255);
-		SDL_RenderFillRect(renderer, square);
-	}
-
-	SDL_SetRenderDrawColor(renderer, 0, 100, 5, 255);
-	SDL_RenderDrawRect(renderer, square);
+	return false;
 }

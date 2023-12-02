@@ -1,13 +1,29 @@
 #include "FileManager.h"
 
+void FileManager::swapBuffers()
+{
+	std::vector<std::string> temp = m_LoadBuffer;
+
+	m_LoadBuffer = m_SaveBuffer;
+	m_SaveBuffer = temp;
+}
+
+void FileManager::clearLoadBuffer()
+{
+	m_LoadBuffer.clear();
+}
+
+void FileManager::clearSaveBuffer()
+{
+	m_SaveBuffer.clear();
+}
+
 void FileManager::loadFromFileToLoadBuffer()
 {
 	std::ifstream stream(m_FilePath);
 	std::stringstream ss;
 
 	std::string line;
-
-	m_LoadBuffer.clear();
 
 	while (getline(stream, line))
 		m_LoadBuffer.emplace_back(line);
@@ -18,7 +34,6 @@ void FileManager::loadFromFileToLoadBuffer()
 void FileManager::saveToFileFromSaveBuffer()
 {
 	checkExistingDir();
-	m_SaveBuffer.clear();
 
 	std::ofstream stream(m_FilePath);
 
@@ -27,14 +42,18 @@ void FileManager::saveToFileFromSaveBuffer()
 			stream << data;
 
 	stream.close();
+	m_SaveBuffer.clear();
 }
 
-void FileManager::swapBuffers()
+void FileManager::createSaveCategory(const char* category)
 {
-	std::vector<std::string> temp = m_LoadBuffer;
+	if (findSaveCategory(category))
+	{
+		std::cout << "\nCategory with name: " << category << "!! Already exists.";
+		return;
+	}
 
-	m_LoadBuffer = m_SaveBuffer;
-	m_SaveBuffer = temp;
+	addToBuffer("#", category);
 }
 
 bool FileManager::findSaveCategory(const char* category)
@@ -55,48 +74,23 @@ bool FileManager::findSaveCategory(const char* category)
 	return false;
 }
 
-std::tuple<std::string, std::string> FileManager::separateDataFromKeys(std::string& line) const
+std::vector<std::string> FileManager::loadDataFromCategory(std::string categoryName)
 {
-	std::pair<std::string, std::string> retVal;
+	std::vector<std::string> returnVal;
 
-	for (size_t i = 0; i < line.size();i++)
+	std::string category = "#" + categoryName;
+	std::string currentCategory;
+
+	for (int i = 0; i < m_LoadBuffer.size(); i++)
 	{
-		if (line[i] == '=' || line[i] == '#')
-		{
-			retVal.first = line.substr(0, i);
-			retVal.second = line.substr(i + 1, line.size());
-		}
+		if (m_LoadBuffer[i][0] == '#')
+			currentCategory = m_LoadBuffer[i];
+
+		if (currentCategory == category)
+			returnVal.emplace_back(m_LoadBuffer[i]);
 	}
 
-	return retVal;
-}
-
-void FileManager::createSaveCategory(const char* category)
-{
-	if (findSaveCategory(category))
-	{
-		std::cout << "\nCategory with name: " << category << "!! Already exists.";
-		return;
-	}
-
-	addToBuffer("#", category);
-}
-
-std::string FileManager::getDirectoriesFromPath()
-{
-	for (size_t i = m_FilePath.size(); i >= 0; i--)
-		if (m_FilePath[i] == '/')
-			return m_FilePath.substr(0, i);
-
-	return "Error";
-}
-
-bool FileManager::checkValidPath(const std::string &path) const
-{
-	if (path == "Error")
-		return false;
-
-	return true;
+	return returnVal;
 }
 
 void FileManager::checkExistingDir()
@@ -115,7 +109,35 @@ void FileManager::checkExistingDir()
 	}
 }
 
-void FileManager::loadDefaultSettings()
+bool FileManager::checkValidPath(const std::string &path) const
 {
+	if (path == "Error")
+		return false;
 
+	return true;
+}
+
+std::string FileManager::getDirectoriesFromPath()
+{
+	for (size_t i = m_FilePath.size(); i >= 0; i--)
+		if (m_FilePath[i] == '/')
+			return m_FilePath.substr(0, i);
+
+	return "Error";
+}
+
+std::tuple<std::string, std::string> FileManager::separateDataFromKeys(std::string& line) const
+{
+	std::pair<std::string, std::string> retVal;
+
+	for (size_t i = 0; i < line.size();i++)
+	{
+		if (line[i] == '=' || line[i] == '#')
+		{
+			retVal.first = line.substr(0, i);
+			retVal.second = line.substr(i + 1, line.size());
+		}
+	}
+
+	return retVal;
 }
