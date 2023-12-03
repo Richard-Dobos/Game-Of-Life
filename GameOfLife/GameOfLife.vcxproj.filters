@@ -42,6 +42,9 @@
     <ClCompile Include="src\SceneManager\SceneManager.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Text\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameBoard\GameBoard.h">
@@ -71,8 +74,13 @@
     <ClInclude Include="src\WindowProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Text\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Fonts\Arcade.ttf" />
+    <Font Include="Fonts\VCR.ttf" />
+    <Font Include="Fonts\3x5.ttf" />
   </ItemGroup>
 </Project>

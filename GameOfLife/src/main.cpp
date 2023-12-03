@@ -2,7 +2,9 @@
 
 #include <SDL.h>
 #include <iostream>
+#include <SDL_ttf.h>
 
+#include "Text/Text.h"
 #include "Scene/GameScene/GameScene.h"
 #include "SceneManager/SceneManager.h"
 #include "Scene/MainMenu/MainMenuScene.h"
@@ -43,6 +45,11 @@ int WinMain()
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 		return 0;
+	}
+
+	if (TTF_Init() < 0)
+	{
+		std::cout << "Error initalizing SDL_ttf: " << TTF_GetError();
 	}
 
 	uint32_t frameStart;

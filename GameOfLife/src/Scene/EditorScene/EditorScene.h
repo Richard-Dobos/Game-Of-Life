@@ -3,8 +3,8 @@
 #include <vector>
 #include <format>
 
-
 #include "../Scene.h"
+#include "../../Text/Text.h"
 #include "../../Camera/Camera.h"
 #include "../MainMenu/MainMenuScene.h"
 #include "../../GameBoard/GameBoard.h"
@@ -31,8 +31,8 @@ private:
 
 	SDL_Color m_ButtonColor = { 225, 146, 10, 255 };
 	SDL_Color m_ButtonColorHover = { 225, 174, 0, 255 };
-	SDL_Color m_ButtonTextColor = { 20, 20, 20, 255 };
-	
+	SDL_Color m_ButtonTextColor = { 40, 40, 40, 255 };
+
 	SceneManager* m_SceneManager;
 	GameBoard m_GameBoard; 
 	Camera m_Camera;

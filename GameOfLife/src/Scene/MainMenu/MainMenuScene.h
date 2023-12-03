@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../Scene.h"
+#include "../../Text/Text.h"
 #include "../../Input/Button/Button.h"
 #include "../../Scene/GameScene/GameScene.h"
 #include "../../SceneManager/SceneManager.h"
@@ -22,7 +23,7 @@ private:
 
 	SDL_Color m_ButtonColor = { 225, 146, 10, 255 };
 	SDL_Color m_ButtonColorHover = { 225, 174, 0, 255 };
-	SDL_Color m_ButtonTextColor = { 20, 20, 20, 255 };
+	SDL_Color m_ButtonTextColor = { 40, 40, 40, 255 };
 
 	SceneManager* m_SceneManager;
 };

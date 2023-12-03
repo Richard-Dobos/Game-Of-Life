@@ -3,17 +3,31 @@
 MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
 	:Scene(e, windowProperties), m_SceneManager(sceneManager)
 {
-	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 100, 75, 250, m_ButtonColor, m_ButtonColorHover, [&]()
+	int buttonX = m_WindowProperties->windowWidth / 2 - (250 / 4);
+	int buttonY = 100; 
+	int buttonH = 75;
+	int buttonW = 250;
+
+	int buttonTextX = buttonX + (buttonW * 0.1f);
+	int buttonTextW = buttonW * 0.8f;
+
+	m_Buttons.emplace_back(buttonX, buttonY, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Start", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{	
 			m_SceneManager->changeScene<GameScene>();
 		});
 
-	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 200, 75, 250, m_ButtonColor, m_ButtonColorHover, [&]()
+	m_Buttons.emplace_back(buttonX, buttonY * 2, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY * 2, buttonTextW, buttonH, 50, "Editor", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{
 			m_SceneManager->changeScene<EditorScene>();
 		});
 
-	m_Buttons.emplace_back(m_WindowProperties->windowWidth / 2 - (250 / 4), 300, 75, 250, m_ButtonColor, m_ButtonColorHover, [&]()
+	m_Buttons.emplace_back(buttonX, buttonY * 3, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY * 3, buttonTextW, buttonH, 50, "Quit", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{
 			m_WindowProperties->exit = true;
 			SDL_Quit();

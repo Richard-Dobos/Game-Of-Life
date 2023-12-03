@@ -3,27 +3,32 @@
 EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
 	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties), m_SceneManager(sceneManager)
 {
-	int buttonPosX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.25f);
-	int buttonPosY = m_WindowProperties->windowHeight * 0.33f;
-	int buttonHeight = m_WindowProperties->windowHeight * 0.05f;
-	int buttonWidth = (m_WindowProperties->windowWidth - (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f)) * 0.5f;
+	int buttonX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.10f);
+	int buttonY = m_WindowProperties->windowHeight * 0.33f;
+	int buttonH = m_WindowProperties->windowHeight * 0.08f;
+	int buttonW = (m_WindowProperties->windowWidth - m_BoardSettingsPosX) / 1.25;
 	float offset = 0.1f * m_WindowProperties->windowHeight;
 
+	int buttonTextX = buttonX + (buttonW * 0.1f);
+	int buttonTextW = buttonW * 0.8f;
 
-	//Main Menu Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
+	m_Buttons.emplace_back(buttonX, buttonY, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Menu", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{
 			m_SceneManager->changeScene<MainMenuScene>();
 		});
 
-	//Save Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
+	m_Buttons.emplace_back(buttonX, buttonY + offset, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY + offset, buttonTextW, buttonH, 50, "Save", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{
 			saveCellData();
 		});
 
-	//Reset Board Button
-	m_Buttons.emplace_back(buttonPosX, buttonPosY + 2 * offset, buttonHeight, buttonWidth, m_ButtonColor, m_ButtonColorHover, [&]()
+	m_Buttons.emplace_back(buttonX, buttonY + 2 * offset, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
+		Text(buttonTextX, buttonY + offset * 2, buttonTextW, buttonH, 50, "Reset", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		[&]()
 		{
 			m_GameBoard.resetBoard();
 		});

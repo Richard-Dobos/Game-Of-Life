@@ -1,10 +1,5 @@
 #include "Button.h"
 
-Button::Button(int xPos, int yPos, int height, int width, const SDL_Color& buttonColor, const SDL_Color& hoverColor, std::function<void()> func)
-	:m_ButtonColor(buttonColor), m_HoverColor(hoverColor), m_Func(func), m_xPos(xPos), m_yPos(yPos), m_Height(height), m_Width(width)
-{
-}
-
 void Button::callback(SDL_Event* e)
 {
 	if(m_IsVisible)
@@ -12,7 +7,7 @@ void Button::callback(SDL_Event* e)
 			m_Func();
 }
 
-void Button::renderButton(SDL_Renderer* renderer) const
+void Button::renderButton(SDL_Renderer* renderer)
 {
 	if (m_IsVisible)
 	{
@@ -24,6 +19,7 @@ void Button::renderButton(SDL_Renderer* renderer) const
 
 		SDL_Rect button(m_xPos, m_yPos, m_Width, m_Height);
 		SDL_RenderFillRect(renderer, &button);
+		m_Text.renderText(renderer);
 	}
 }
 
