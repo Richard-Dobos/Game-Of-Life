@@ -1,5 +1,20 @@
 #include "FileManager.h"
 
+FileManager::FileManager(const std::string& filePath)
+	:m_FilePath(filePath) 
+{
+	const std::string absolutePath = std::filesystem::current_path().string();
+
+	for (int i = absolutePath.size() - 1; i >= 0; i--)
+	{
+		if (absolutePath[i] == '\\')
+		{
+			m_AbsolutePath = absolutePath.substr(0, i);
+			break;
+		}
+	}
+}
+
 void FileManager::swapBuffers()
 {
 	std::vector<std::string> temp = m_LoadBuffer;

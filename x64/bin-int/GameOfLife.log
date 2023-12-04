@@ -1,6 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(516,5): warning MSB8004: Intermediate Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Intermediate Directory.
 C:\Program Files\Microsoft Visual Studio\2022\Preview\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   Scanning sources for module dependencies...
+  FileManager.cpp
+C:\Dev\GameOfLife\GameOfLife\src\FileManager\FileManager.cpp(8,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   EditorScene.cpp
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.h(30,61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   (compiling source file 'src/Scene/EditorScene/EditorScene.cpp')
@@ -11,12 +13,12 @@ C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(8,14): warnin
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(9,14): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(12,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(13,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(23,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(30,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(61,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(61,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(89,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(90,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(25,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(32,29): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(63,94): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(63,94): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(91,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(92,13): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244: 'argument': conversion from '_Ty' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         with
 C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76): warning C4244:         [
@@ -25,7 +27,7 @@ C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\
   (compiling source file 'src/Scene/EditorScene/EditorScene.cpp')
   C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\include\xutility(241,76):
   the template instantiation context (the oldest one first) is
-  	C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(22,11):
+  	C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.cpp(24,11):
   	see reference to function template instantiation '_Ty &std::vector<_Ty,std::allocator<_Ty>>::emplace_back<int&,float,int&,int&,SDL_Color&,SDL_Color&,Text,EditorScene::{ctor}::<lambda_2>>(int &,float &&,int &,int &,SDL_Color &,SDL_Color &,Text &&,EditorScene::{ctor}::<lambda_2> &&)' being compiled
           with
           [
@@ -83,4 +85,11 @@ C:\Program Files\Microsoft Visual Studio\2022\Preview\VC\Tools\MSVC\14.39.33218\
               _Objty=Button
           ]
   
+  MainMenuScene.cpp
+C:\Dev\GameOfLife\GameOfLife\src\Scene\EditorScene\EditorScene.h(30,61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'src/Scene/MainMenu/MainMenuScene.cpp')
+  
+C:\Dev\GameOfLife\GameOfLife\src\Scene\MainMenu\MainMenuScene.cpp(11,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Dev\GameOfLife\GameOfLife\src\Scene\MainMenu\MainMenuScene.cpp(12,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating Code...
   GameOfLife.vcxproj -> C:\Dev\GameOfLife\x64\bin\GameOfLife.exe

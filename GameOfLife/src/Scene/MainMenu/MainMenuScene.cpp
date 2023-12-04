@@ -11,22 +11,24 @@ MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, S
 	int buttonTextX = buttonX + (buttonW * 0.1f);
 	int buttonTextW = buttonW * 0.8f;
 
+	std::string fontPath = m_FileManager->m_AbsolutePath + "/Fonts/Open24Display.ttf";
+
 	m_Buttons.emplace_back(buttonX, buttonY, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
-		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Start", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Start", fontPath, &m_ButtonTextColor),
 		[&]()
 		{	
 			m_SceneManager->changeScene<GameScene>();
 		});
 
 	m_Buttons.emplace_back(buttonX, buttonY * 2, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
-		Text(buttonTextX, buttonY * 2, buttonTextW, buttonH, 50, "Editor", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		Text(buttonTextX, buttonY * 2, buttonTextW, buttonH, 50, "Editor", fontPath, &m_ButtonTextColor),
 		[&]()
 		{
 			m_SceneManager->changeScene<EditorScene>();
 		});
 
 	m_Buttons.emplace_back(buttonX, buttonY * 3, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
-		Text(buttonTextX, buttonY * 3, buttonTextW, buttonH, 50, "Quit", "Fonts/Open24Display.ttf", &m_ButtonTextColor),
+		Text(buttonTextX, buttonY * 3, buttonTextW, buttonH, 50, "Quit", fontPath, &m_ButtonTextColor),
 		[&]()
 		{
 			m_WindowProperties->exit = true;

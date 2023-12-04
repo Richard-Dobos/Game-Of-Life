@@ -1,17 +1,16 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <filesystem>
+#include <vector>
 #include <string>
 #include <sstream>
-#include <vector>
+#include <fstream>
+#include <iostream>
+#include <filesystem>
 
 class FileManager
 {
 public:
-	FileManager(const std::string& filePath)
-		:m_FilePath(filePath) {}
+	FileManager(const std::string& filePath);
 
 	void swapBuffers();
 	void clearLoadBuffer();
@@ -33,6 +32,8 @@ public:
 		else
 			m_SaveBuffer.emplace_back(std::format("#{}\n", value));
 	}
+
+	std::string m_AbsolutePath;
 
 private:
 	void checkExistingDir();
