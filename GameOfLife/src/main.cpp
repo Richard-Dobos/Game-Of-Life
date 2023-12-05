@@ -52,9 +52,6 @@ int WinMain()
 		std::cout << "Error initalizing SDL_ttf: " << TTF_GetError();
 	}
 
-	uint32_t frameStart;
-	uint32_t frameTime;
-
 	SDL_Event event;
 	WindowProperties windowProperties = { HEIGHT, WIDTH, 30, false };
 	SceneManager sceneManager(&event, &windowProperties);
@@ -63,23 +60,12 @@ int WinMain()
 
 	while (!windowProperties.exit)
 	{
-		frameStart = SDL_GetTicks();
-
 		SDL_PollEvent(&event);
 
 		sceneManager.update(renderer);
 
-		SDL_RenderPresent(renderer);
-
 		if (event.type == SDL_QUIT)
 			windowProperties.exit = true;
-
-		frameTime = SDL_GetTicks() - frameStart;
-
-		if (1000 / windowProperties.refreshRate > frameTime)
-		{
-			SDL_Delay(1000 / windowProperties.refreshRate - frameTime);
-		}
 	}
 
 	SDL_DestroyRenderer(renderer);
