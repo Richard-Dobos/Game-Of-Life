@@ -4,14 +4,22 @@ FileManager::FileManager(const std::string& filePath)
 	:m_FilePath(filePath) 
 {
 	const std::string absolutePath = std::filesystem::current_path().string();
+	std::vector<int> slashIndecies;
 
-	for (int i = absolutePath.size() - 1; i >= 0; i--)
+	for (int i = 0; i < absolutePath.size() - 1; i++)
 	{
 		if (absolutePath[i] == '\\')
 		{
-			m_AbsolutePath = absolutePath.substr(0, i);
-			break;
+			slashIndecies.emplace_back(i);
 		}
+	}
+
+	for (int i = 1; i < slashIndecies.size(); i++)
+	{
+		std::string comp = absolutePath.substr(slashIndecies[i - 1] + 1, slashIndecies[i] - slashIndecies[i - 1] - 1);
+
+		if (comp == "GameOfLife")
+			m_AbsolutePath = absolutePath.substr(0, slashIndecies[i]);
 	}
 }
 

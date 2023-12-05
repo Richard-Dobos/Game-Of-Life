@@ -34,6 +34,9 @@ MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, S
 			m_WindowProperties->exit = true;
 			SDL_Quit();
 		});
+	
+	std::cout << "\nAbsolute path: " << m_FileManager->m_AbsolutePath;
+
 }
 
 void MainMenuScene::update(SDL_Renderer* renderer)
