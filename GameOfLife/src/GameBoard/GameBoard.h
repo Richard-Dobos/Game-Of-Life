@@ -8,9 +8,10 @@
 */
 
 #include <map>
-#include <iostream>
 #include <SDL.h>
+#include <iostream>
 
+#include "../Timer/Timer.h"
 #include "../FileManager/FileManager.h"
 
 class GameBoard

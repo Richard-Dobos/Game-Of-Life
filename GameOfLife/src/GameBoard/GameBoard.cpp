@@ -3,6 +3,8 @@
 GameBoard::GameBoard(int height, int width)
 	:m_GameBoardHeight(height), m_GameBoardWidth(width)
 {
+	Timer time;
+
 	for (int y = 0; y < m_GameBoardHeight; y++)
 	{
 		std::vector<bool> temp;

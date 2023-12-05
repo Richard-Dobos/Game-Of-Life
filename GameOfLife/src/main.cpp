@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SDL_ttf.h>
 
-#include "Text/Text.h"
 #include "Scene/GameScene/GameScene.h"
 #include "SceneManager/SceneManager.h"
 #include "Scene/MainMenu/MainMenuScene.h"

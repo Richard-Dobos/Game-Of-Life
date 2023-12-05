@@ -24,4 +24,3 @@ private:
 	SDL_Rect m_TextBox;
 	SDL_Color* m_TextColor;
 };
-
