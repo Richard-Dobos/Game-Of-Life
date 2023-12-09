@@ -12,20 +12,20 @@
 #include <iostream>
 
 #include "../Timer/Timer.h"
-#include "../FileManager/FileManager.h"
+#include "../SaveManager/SaveManager.h"
 
 class GameBoard
 {
 public:
 	GameBoard(int gameBoardHeight = 1024, int gameBoardWidth = 1024);
-
-	void update(int tickRate);
+	
+	void update(int tickRate); 
 	void resetBoard();
 
 public:
 	int m_GameBoardHeight, m_GameBoardWidth;
 	int scale = 2;
-	bool m_Changed = true;
+	bool m_GameBoardChange = true;
 
 	std::vector<std::vector<bool>> m_CellsData;
 	std::map<int, std::tuple<int, int>> m_AliveCells;

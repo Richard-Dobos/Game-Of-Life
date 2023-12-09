@@ -7,10 +7,10 @@
 #include <iostream>
 #include <filesystem>
 
-class FileManager
+class SaveManager
 {
 public:
-	FileManager(const std::string& filePath);
+	SaveManager();
 
 	void swapBuffers();
 	void clearLoadBuffer();

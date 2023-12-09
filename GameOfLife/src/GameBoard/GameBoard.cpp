@@ -23,6 +23,7 @@ void GameBoard::update(int tickRate)
 		checkAliveCellsStatus();
 		checkDeadCellsStatus();
 		ticks = 0;
+		m_GameBoardChange = false;
 	}
 
 	ticks += 1;
@@ -50,6 +51,7 @@ void GameBoard::checkAliveCellsStatus()
 
 		if (!checkCellStatus(x, y, true))
 		{
+			m_GameBoardChange = true;
 			m_CellsData[y][x] = false;
 			indeciesToRemove.emplace_back(cell.first);
 		}
@@ -69,6 +71,7 @@ void GameBoard::checkDeadCellsStatus()
 
 		if (checkCellStatus(x, y, false))
 		{
+			m_GameBoardChange = true;
 			m_CellsData[y][x] = true;
 			m_AliveCells[x + y] = std::make_tuple(x, y);
 		}

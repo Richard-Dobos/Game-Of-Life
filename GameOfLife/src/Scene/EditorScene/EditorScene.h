@@ -26,6 +26,7 @@ private:
 	void saveCellData();
 
 private:
+	bool m_SceneUpdated = true;
 	bool m_RenderBoardSettings = true;
 	int m_BoardSettingsPosX = (m_WindowProperties->windowWidth - m_WindowProperties->windowWidth * 0.15f);
 

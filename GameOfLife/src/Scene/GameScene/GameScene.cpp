@@ -1,7 +1,7 @@
 #include "GameScene.h"
 
 GameScene::GameScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
-	:Scene(e, windowProperties), m_Camera(&m_GameBoard, m_WindowProperties), m_SceneManager(sceneManager)
+	:Scene(e, windowProperties, sceneManager->m_SaveManager), m_SceneManager(sceneManager), m_Camera(&m_GameBoard, m_WindowProperties)
 {
 	loadCellData();
 	setBoardStatus();
@@ -17,8 +17,8 @@ void GameScene::update(SDL_Renderer* renderer)
 
 void GameScene::loadCellData()
 {
-	m_FileManager->loadFromFileToLoadBuffer();
-	std::vector<std::string> loadBuffer = m_FileManager->loadDataFromCategory("CellData");
+	m_SaveManager->loadFromFileToLoadBuffer();
+	std::vector<std::string> loadBuffer = m_SaveManager->loadDataFromCategory("CellData");
 	std::string category;
 
 	for (int i = 1; i < loadBuffer.size(); i++)
@@ -39,7 +39,7 @@ void GameScene::loadCellData()
 		m_GameBoard.m_AliveCells[x + y + (y * m_GameBoard.m_GameBoardWidth)] = (std::make_tuple(x, y));
 	}
 
-	m_FileManager->clearLoadBuffer();
+	m_SaveManager->clearLoadBuffer();
 }
 
 void GameScene::setBoardStatus()

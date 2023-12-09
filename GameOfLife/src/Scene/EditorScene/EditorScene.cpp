@@ -1,7 +1,7 @@
 #include "EditorScene.h"
 
 EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
-	:Scene(e, windowProperties), m_Camera(&m_GameBoard, windowProperties), m_SceneManager(sceneManager)
+	:Scene(e, windowProperties, sceneManager->m_SaveManager), m_Camera(&m_GameBoard, windowProperties), m_SceneManager(sceneManager)
 {
 	int buttonX = m_BoardSettingsPosX + ((m_WindowProperties->windowWidth - m_BoardSettingsPosX) * 0.10f);
 	int buttonY = m_WindowProperties->windowHeight * 0.33f;
@@ -12,7 +12,7 @@ EditorScene::EditorScene(SDL_Event* e, WindowProperties* windowProperties, Scene
 	int buttonTextX = buttonX + (buttonW * 0.1f);
 	int buttonTextW = buttonW * 0.8f;
 
-	std::string fontPath = m_FileManager->m_AbsolutePath + "/Fonts/Open24Display.ttf";
+	std::string fontPath = m_SaveManager->m_AbsolutePath + "/Fonts/Open24Display.ttf";
 
 	m_Buttons.emplace_back(buttonX, buttonY, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
 		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Menu", fontPath, &m_ButtonTextColor),
@@ -44,15 +44,15 @@ void EditorScene::update(SDL_Renderer* renderer)
 	m_Camera.render(renderer);
 	m_Camera.updateCameraPosition(m_Event);
 	renderBoardSettingsMenu(renderer);
+
+	checkForSettingsShortcut();
+	addLiveCell();
 	
 	for (Button button : m_Buttons)
 	{
 		button.renderButton(renderer);
 		button.callback(m_Event);
 	}
-
-	checkForSettingsShortcut();
-	addLiveCell();
 }
 
 void EditorScene::renderBoardSettingsMenu(SDL_Renderer* renderer) const 
@@ -77,6 +77,8 @@ void EditorScene::checkForSettingsShortcut()
 			for (Button& button : m_Buttons)
 				button.m_IsVisible = m_RenderBoardSettings;
 		}
+
+		m_SceneUpdated = true;
 	}
 }
 
@@ -126,12 +128,14 @@ void EditorScene::addLiveCell()
 				m_GameBoard.m_CellsData[gridY][gridX] = true;
 			}
 		}
+
+		m_SceneUpdated = true;
 	}
 }
 
 void EditorScene::saveCellData()
 {
-	m_FileManager->createSaveCategory("CellData");
+	m_SaveManager->createSaveCategory("CellData");
 
 	for (const auto cell : m_GameBoard.m_AliveCells)
 	{
@@ -141,9 +145,8 @@ void EditorScene::saveCellData()
 
 		std::cout << "\n" << save;
 
-		m_FileManager->addToBuffer("Cell",save);
+		m_SaveManager->addToBuffer("Cell",save);
 	}
 
-	m_FileManager->saveToFileFromSaveBuffer();
-	m_FileManager->clearSaveBuffer();
+	m_SaveManager->saveToFileFromSaveBuffer();
 }

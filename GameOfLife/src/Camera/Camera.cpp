@@ -29,7 +29,7 @@ bool Camera::updateCameraPosition(SDL_Event* event)
 {
 	if (event->type == SDL_KEYDOWN)
 	{
-		int cameraMoveMagnitude = m_GameBoard->scale;
+		int cameraMoveMagnitude = m_TextureViewport.w / 7;
 
 		std::cout << std::format("\nTexture Viewport\nX: {} | Y: {}\nWidth: {} | Height: {}", m_TextureViewport.x , m_TextureViewport.y, m_TextureViewport.w, m_TextureViewport.h);
 

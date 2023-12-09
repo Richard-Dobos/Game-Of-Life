@@ -1,7 +1,7 @@
 #include "MainMenuScene.h"
 
 MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, SceneManager* sceneManager)
-	:Scene(e, windowProperties), m_SceneManager(sceneManager)
+	:Scene(e, windowProperties, sceneManager->m_SaveManager), m_SceneManager(sceneManager)
 {
 	int buttonX = m_WindowProperties->windowWidth / 2 - (250 / 4);
 	int buttonY = 100; 
@@ -11,7 +11,7 @@ MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, S
 	int buttonTextX = buttonX + (buttonW * 0.1f);
 	int buttonTextW = buttonW * 0.8f;
 
-	std::string fontPath = m_FileManager->m_AbsolutePath + "/Fonts/Open24Display.ttf";
+	std::string fontPath = m_SaveManager->m_AbsolutePath + "/Fonts/Open24Display.ttf";
 
 	m_Buttons.emplace_back(buttonX, buttonY, buttonH, buttonW, m_ButtonColor, m_ButtonColorHover, 
 		Text(buttonTextX, buttonY, buttonTextW, buttonH, 50, "Start", fontPath, &m_ButtonTextColor),
@@ -35,7 +35,7 @@ MainMenuScene::MainMenuScene(SDL_Event* e, WindowProperties* windowProperties, S
 			SDL_Quit();
 		});
 	
-	std::cout << "\nAbsolute path: " << m_FileManager->m_AbsolutePath;
+	std::cout << "\nAbsolute path: " << m_SaveManager->m_AbsolutePath;
 
 }
 

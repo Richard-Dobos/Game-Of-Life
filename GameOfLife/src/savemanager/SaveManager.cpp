@@ -1,7 +1,6 @@
-#include "FileManager.h"
+#include "SaveManager.h"
 
-FileManager::FileManager(const std::string& filePath)
-	:m_FilePath(filePath) 
+SaveManager::SaveManager() 
 {
 	const std::string absolutePath = std::filesystem::current_path().string();
 	std::vector<int> slashIndecies;
@@ -14,16 +13,18 @@ FileManager::FileManager(const std::string& filePath)
 		}
 	}
 
-	for (int i = 1; i < slashIndecies.size(); i++)
+	for (int i = 0; i < slashIndecies.size(); i++)
 	{
-		std::string comp = absolutePath.substr(slashIndecies[i - 1] + 1, slashIndecies[i] - slashIndecies[i - 1] - 1);
+		std::string comp = absolutePath.substr(0, slashIndecies[i]);
 
-		if (comp == "GameOfLife")
+		if (std::filesystem::exists(comp + "\\x64"))
 			m_AbsolutePath = absolutePath.substr(0, slashIndecies[i]);
 	}
+
+	m_FilePath = m_AbsolutePath + "\\Saves\\save.txt";
 }
 
-void FileManager::swapBuffers()
+void SaveManager::swapBuffers()
 {
 	std::vector<std::string> temp = m_LoadBuffer;
 
@@ -31,17 +32,17 @@ void FileManager::swapBuffers()
 	m_SaveBuffer = temp;
 }
 
-void FileManager::clearLoadBuffer()
+void SaveManager::clearLoadBuffer()
 {
 	m_LoadBuffer.clear();
 }
 
-void FileManager::clearSaveBuffer()
+void SaveManager::clearSaveBuffer()
 {
 	m_SaveBuffer.clear();
 }
 
-void FileManager::loadFromFileToLoadBuffer()
+void SaveManager::loadFromFileToLoadBuffer()
 {
 	std::ifstream stream(m_FilePath);
 	std::stringstream ss;
@@ -54,7 +55,7 @@ void FileManager::loadFromFileToLoadBuffer()
 	stream.close();
 }
 
-void FileManager::saveToFileFromSaveBuffer()
+void SaveManager::saveToFileFromSaveBuffer()
 {
 	checkExistingDir();
 
@@ -68,7 +69,7 @@ void FileManager::saveToFileFromSaveBuffer()
 	m_SaveBuffer.clear();
 }
 
-void FileManager::createSaveCategory(const char* category)
+void SaveManager::createSaveCategory(const char* category)
 {
 	if (findSaveCategory(category))
 	{
@@ -79,7 +80,7 @@ void FileManager::createSaveCategory(const char* category)
 	addToBuffer("#", category);
 }
 
-bool FileManager::findSaveCategory(const char* category)
+bool SaveManager::findSaveCategory(const char* category)
 {
 	if (m_LoadBuffer.empty())
 		loadFromFileToLoadBuffer();
@@ -97,7 +98,7 @@ bool FileManager::findSaveCategory(const char* category)
 	return false;
 }
 
-std::vector<std::string> FileManager::loadDataFromCategory(std::string categoryName)
+std::vector<std::string> SaveManager::loadDataFromCategory(std::string categoryName)
 {
 	std::vector<std::string> returnVal;
 
@@ -116,7 +117,7 @@ std::vector<std::string> FileManager::loadDataFromCategory(std::string categoryN
 	return returnVal;
 }
 
-void FileManager::checkExistingDir()
+void SaveManager::checkExistingDir()
 {
 	if (!std::filesystem::exists(m_FilePath))
 	{
@@ -132,7 +133,7 @@ void FileManager::checkExistingDir()
 	}
 }
 
-bool FileManager::checkValidPath(const std::string &path) const
+bool SaveManager::checkValidPath(const std::string &path) const
 {
 	if (path == "Error")
 		return false;
@@ -140,16 +141,16 @@ bool FileManager::checkValidPath(const std::string &path) const
 	return true;
 }
 
-std::string FileManager::getDirectoriesFromPath()
+std::string SaveManager::getDirectoriesFromPath()
 {
 	for (size_t i = m_FilePath.size(); i >= 0; i--)
-		if (m_FilePath[i] == '/')
+		if (m_FilePath[i] == '\\')
 			return m_FilePath.substr(0, i);
 
 	return "Error";
 }
 
-std::tuple<std::string, std::string> FileManager::separateDataFromKeys(std::string& line) const
+std::tuple<std::string, std::string> SaveManager::separateDataFromKeys(std::string& line) const
 {
 	std::pair<std::string, std::string> retVal;
 

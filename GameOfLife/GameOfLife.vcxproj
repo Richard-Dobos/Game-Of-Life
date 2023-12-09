@@ -145,7 +145,7 @@
   <ItemGroup>
     <ClCompile Include="src\SceneManager\SceneManager.h" />
     <ClCompile Include="src\Camera\Camera.cpp" />
-    <ClCompile Include="src\FileManager\FileManager.cpp" />
+    <ClCompile Include="src\SaveManager\SaveManager.cpp" />
     <ClCompile Include="src\GameBoard\GameBoard.cpp" />
     <ClCompile Include="src\Input\Button\Button.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Camera\Camera.h" />
-    <ClInclude Include="src\FileManager\FileManager.h" />
+    <ClInclude Include="src\SaveManager\SaveManager.h" />
     <ClInclude Include="src\GameBoard\GameBoard.h" />
     <ClInclude Include="src\Input\Button\Button.h" />
     <ClInclude Include="src\Scene\EditorScene\EditorScene.h" />

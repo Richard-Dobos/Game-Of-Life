@@ -36,7 +36,7 @@
     <ClCompile Include="src\Scene\EditorScene\EditorScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileManager\FileManager.cpp">
+    <ClCompile Include="src\SaveManager\SaveManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneManager\SceneManager.h">
@@ -71,7 +71,7 @@
     <ClInclude Include="src\Scene\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FileManager\FileManager.h">
+    <ClInclude Include="src\SaveManager\SaveManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\WindowProperties.h">

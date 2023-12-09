@@ -1,8 +1,10 @@
 #pragma once
 
+#include <SDL.h>
 #include <vector>
+#include <thread>
+#include <future>
 
-#include "SDL.h"
 #include "../Scene.h"
 #include "../../Camera/Camera.h"
 #include "../../GameBoard/GameBoard.h"
@@ -22,10 +24,12 @@ private:
 	void checkForQuitInput();
 		
 private:
-	bool m_Changed = true;
 	int m_ScreenWidth, m_ScreenHeight, m_GameBoardWidth, m_GameBoardHeight, m_MouseX, m_MouseY;
 
 	SceneManager* m_SceneManager;
 	GameBoard m_GameBoard;
 	Camera m_Camera;
+
+	std::jthread m_GameLogicThread;
+	std::jthread m_RenderingThread;
 };
